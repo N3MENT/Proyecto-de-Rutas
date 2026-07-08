@@ -1,0 +1,11 @@
+C:\Users\abrah\OneDrive\Desktop\PROYECTO RUTAS\src\Core\OptimiRutas.Domain\bin\Debug\net10.0\OptimiRutas.Domain.deps.json
+C:\Users\abrah\OneDrive\Desktop\PROYECTO RUTAS\src\Core\OptimiRutas.Domain\bin\Debug\net10.0\OptimiRutas.Domain.dll
+C:\Users\abrah\OneDrive\Desktop\PROYECTO RUTAS\src\Core\OptimiRutas.Domain\bin\Debug\net10.0\OptimiRutas.Domain.pdb
+C:\Users\abrah\OneDrive\Desktop\PROYECTO RUTAS\src\Core\OptimiRutas.Domain\obj\Debug\net10.0\OptimiRutas.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\abrah\OneDrive\Desktop\PROYECTO RUTAS\src\Core\OptimiRutas.Domain\obj\Debug\net10.0\OptimiRutas.Domain.AssemblyInfoInputs.cache
+C:\Users\abrah\OneDrive\Desktop\PROYECTO RUTAS\src\Core\OptimiRutas.Domain\obj\Debug\net10.0\OptimiRutas.Domain.AssemblyInfo.cs
+C:\Users\abrah\OneDrive\Desktop\PROYECTO RUTAS\src\Core\OptimiRutas.Domain\obj\Debug\net10.0\OptimiRutas.Domain.csproj.CoreCompileInputs.cache
+C:\Users\abrah\OneDrive\Desktop\PROYECTO RUTAS\src\Core\OptimiRutas.Domain\obj\Debug\net10.0\OptimiRutas.Domain.dll
+C:\Users\abrah\OneDrive\Desktop\PROYECTO RUTAS\src\Core\OptimiRutas.Domain\obj\Debug\net10.0\refint\OptimiRutas.Domain.dll
+C:\Users\abrah\OneDrive\Desktop\PROYECTO RUTAS\src\Core\OptimiRutas.Domain\obj\Debug\net10.0\OptimiRutas.Domain.pdb
+C:\Users\abrah\OneDrive\Desktop\PROYECTO RUTAS\src\Core\OptimiRutas.Domain\obj\Debug\net10.0\ref\OptimiRutas.Domain.dll

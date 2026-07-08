@@ -1,0 +1,39 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v10.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v10.0": {
+      "OptimiRutas.Application/1.0.0": {
+        "dependencies": {
+          "OptimiRutas.Domain": "1.0.0"
+        },
+        "runtime": {
+          "OptimiRutas.Application.dll": {}
+        }
+      },
+      "OptimiRutas.Domain/1.0.0": {
+        "runtime": {
+          "OptimiRutas.Domain.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "OptimiRutas.Application/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "OptimiRutas.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

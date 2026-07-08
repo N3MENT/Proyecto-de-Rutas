@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/src/" />
+  <Folder Name="/src/Adapters/">
+    <Project Path="src/Adapters/OptimiRutas.Api/OptimiRutas.Api.csproj" />
+    <Project Path="src/Adapters/OptimiRutas.Infrastructure/OptimiRutas.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/src/Core/">
+    <Project Path="src/Core/OptimiRutas.Application/OptimiRutas.Application.csproj" />
+    <Project Path="src/Core/OptimiRutas.Domain/OptimiRutas.Domain.csproj" />
+  </Folder>
+</Solution>
