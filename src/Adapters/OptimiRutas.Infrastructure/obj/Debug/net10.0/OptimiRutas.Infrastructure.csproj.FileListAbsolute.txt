@@ -15,3 +15,21 @@ C:\Users\abrah\OneDrive\Desktop\PROYECTO RUTAS\src\Adapters\OptimiRutas.Infrastr
 C:\Users\abrah\OneDrive\Desktop\PROYECTO RUTAS\src\Adapters\OptimiRutas.Infrastructure\obj\Debug\net10.0\refint\OptimiRutas.Infrastructure.dll
 C:\Users\abrah\OneDrive\Desktop\PROYECTO RUTAS\src\Adapters\OptimiRutas.Infrastructure\obj\Debug\net10.0\OptimiRutas.Infrastructure.pdb
 C:\Users\abrah\OneDrive\Desktop\PROYECTO RUTAS\src\Adapters\OptimiRutas.Infrastructure\obj\Debug\net10.0\ref\OptimiRutas.Infrastructure.dll
+C:\Users\diego\OneDrive\Documentos\Proyecto-de-Rutas\src\Adapters\OptimiRutas.Infrastructure\bin\Debug\net10.0\OptimiRutas.Infrastructure.deps.json
+C:\Users\diego\OneDrive\Documentos\Proyecto-de-Rutas\src\Adapters\OptimiRutas.Infrastructure\bin\Debug\net10.0\OptimiRutas.Infrastructure.dll
+C:\Users\diego\OneDrive\Documentos\Proyecto-de-Rutas\src\Adapters\OptimiRutas.Infrastructure\bin\Debug\net10.0\OptimiRutas.Infrastructure.pdb
+C:\Users\diego\OneDrive\Documentos\Proyecto-de-Rutas\src\Adapters\OptimiRutas.Infrastructure\bin\Debug\net10.0\OptimiRutas.Application.dll
+C:\Users\diego\OneDrive\Documentos\Proyecto-de-Rutas\src\Adapters\OptimiRutas.Infrastructure\bin\Debug\net10.0\OptimiRutas.Domain.dll
+C:\Users\diego\OneDrive\Documentos\Proyecto-de-Rutas\src\Adapters\OptimiRutas.Infrastructure\bin\Debug\net10.0\OptimiRutas.Application.pdb
+C:\Users\diego\OneDrive\Documentos\Proyecto-de-Rutas\src\Adapters\OptimiRutas.Infrastructure\bin\Debug\net10.0\OptimiRutas.Domain.pdb
+C:\Users\diego\OneDrive\Documentos\Proyecto-de-Rutas\src\Adapters\OptimiRutas.Infrastructure\obj\Debug\net10.0\OptimiRutas.Infrastructure.csproj.AssemblyReference.cache
+C:\Users\diego\OneDrive\Documentos\Proyecto-de-Rutas\src\Adapters\OptimiRutas.Infrastructure\obj\Debug\net10.0\OptimiRutas.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\diego\OneDrive\Documentos\Proyecto-de-Rutas\src\Adapters\OptimiRutas.Infrastructure\obj\Debug\net10.0\OptimiRutas.Infrastructure.AssemblyInfoInputs.cache
+C:\Users\diego\OneDrive\Documentos\Proyecto-de-Rutas\src\Adapters\OptimiRutas.Infrastructure\obj\Debug\net10.0\OptimiRutas.Infrastructure.AssemblyInfo.cs
+C:\Users\diego\OneDrive\Documentos\Proyecto-de-Rutas\src\Adapters\OptimiRutas.Infrastructure\obj\Debug\net10.0\OptimiRutas.Infrastructure.csproj.CoreCompileInputs.cache
+C:\Users\diego\OneDrive\Documentos\Proyecto-de-Rutas\src\Adapters\OptimiRutas.Infrastructure\obj\Debug\net10.0\OptimiRutas.Infrastructure.sourcelink.json
+C:\Users\diego\OneDrive\Documentos\Proyecto-de-Rutas\src\Adapters\OptimiRutas.Infrastructure\obj\Debug\net10.0\OptimiRu.404FD04E.Up2Date
+C:\Users\diego\OneDrive\Documentos\Proyecto-de-Rutas\src\Adapters\OptimiRutas.Infrastructure\obj\Debug\net10.0\OptimiRutas.Infrastructure.dll
+C:\Users\diego\OneDrive\Documentos\Proyecto-de-Rutas\src\Adapters\OptimiRutas.Infrastructure\obj\Debug\net10.0\refint\OptimiRutas.Infrastructure.dll
+C:\Users\diego\OneDrive\Documentos\Proyecto-de-Rutas\src\Adapters\OptimiRutas.Infrastructure\obj\Debug\net10.0\OptimiRutas.Infrastructure.pdb
+C:\Users\diego\OneDrive\Documentos\Proyecto-de-Rutas\src\Adapters\OptimiRutas.Infrastructure\obj\Debug\net10.0\ref\OptimiRutas.Infrastructure.dll

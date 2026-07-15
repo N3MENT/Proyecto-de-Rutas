@@ -8,4 +8,7 @@
     <Project Path="src/Core/OptimiRutas.Application/OptimiRutas.Application.csproj" />
     <Project Path="src/Core/OptimiRutas.Domain/OptimiRutas.Domain.csproj" />
   </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/OptimiRutas.Tests/OptimiRutas.Tests.csproj" />
+  </Folder>
 </Solution>

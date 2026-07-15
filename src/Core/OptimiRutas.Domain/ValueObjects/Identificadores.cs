@@ -9,3 +9,8 @@ public record ParadaId(Guid Value)
 {
     public static ParadaId Nuevo() => new(Guid.NewGuid());
 }
+
+public record UsuarioId(Guid Value)
+{
+    public static UsuarioId Nuevo() => new(Guid.NewGuid());
+}

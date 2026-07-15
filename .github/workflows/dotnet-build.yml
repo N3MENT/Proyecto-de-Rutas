@@ -22,3 +22,5 @@ jobs:
         run: dotnet restore OptimiRutas.slnx
       - name: Build solution
         run: dotnet build OptimiRutas.slnx --configuration Release --no-restore
+      - name: Run tests
+        run: dotnet test OptimiRutas.slnx --configuration Release --no-build --verbosity normal

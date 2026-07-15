@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "UuX81s92SvT7L8uVAfTAEDErSxLE40lrq7B69REMqgrpfFOncMEmSsn/9O7jdQB9W2WvqJax2Hws0ZB7cFPz7A==",
+  "dgSpecHash": "TrlAsNjkBHs=",
   "success": true,
-  "projectFilePath": "/home/sitiouno/Yen/proyecto-rutas/Proyecto-de-Rutas/src/Core/OptimiRutas.Application/OptimiRutas.Application.csproj",
+  "projectFilePath": "C:\\Users\\diego\\OneDrive\\Documentos\\Proyecto-de-Rutas\\src\\Core\\OptimiRutas.Application\\OptimiRutas.Application.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

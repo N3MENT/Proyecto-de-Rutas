@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#1a73e8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>OptimiRutas - Mapa</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+</head>
+<body class="app-page">
+    <header class="app-header">
+        <div class="header-left">
+            <button id="menuBtn" class="icon-btn" aria-label="Menú">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+                </svg>
+            </button>
+            <h1 class="app-title">OptimiRutas</h1>
+        </div>
+        <div class="header-right">
+            <span id="userDisplay" class="user-badge"></span>
+            <button id="logoutBtn" class="icon-btn" aria-label="Cerrar sesión">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <nav id="sideMenu" class="side-menu hidden">
+        <div class="menu-header">
+            <div id="menuUserIcon" class="user-avatar"></div>
+            <div>
+                <div id="menuUserName" class="menu-user-name"></div>
+                <div id="menuUserEmail" class="menu-user-email"></div>
+            </div>
+        </div>
+        <div class="menu-items">
+            <button class="menu-item active" data-view="map">Mi Ruta</button>
+            <button class="menu-item" data-view="saved">Mis Rutas Guardadas</button>
+        </div>
+    </nav>
+    <div id="menuOverlay" class="menu-overlay hidden"></div>
+
+    <main class="app-main">
+        <div id="searchPanel" class="search-panel">
+            <div class="search-box">
+                <div class="location-indicator" id="locationStatus">
+                    <span class="pulse-dot"></span>
+                    <span>Obteniendo ubicación...</span>
+                </div>
+                <div class="search-field">
+                    <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                    </svg>
+                    <input type="text" id="destinationInput" placeholder="¿A dónde quieres ir?" autocomplete="off">
+                    <button id="clearSearch" class="clear-btn hidden" aria-label="Limpiar">✕</button>
+                </div>
+                <div id="suggestions" class="suggestions-list hidden"></div>
+            </div>
+
+            <div id="vehicleSelector" class="vehicle-selector">
+                <div class="vehicle-option selected" data-vehiculo="Moto">
+                    <span>🏍️</span><span>Moto</span>
+                </div>
+                <div class="vehicle-option" data-vehiculo="Carro">
+                    <span>🚗</span><span>Carro</span>
+                </div>
+                <div class="vehicle-option" data-vehiculo="Camioneta">
+                    <span>🚐</span><span>Camioneta</span>
+                </div>
+                <div class="vehicle-option" data-vehiculo="Bicicleta">
+                    <span>🚲</span><span>Bici</span>
+                </div>
+                <div class="vehicle-option" data-vehiculo="Caminando">
+                    <span>🚶</span><span>A pie</span>
+                </div>
+            </div>
+
+            <div id="mapHint" class="map-hint hidden">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1a73e8" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
+                </svg>
+                <span>Toca en el mapa para seleccionar tu destino</span>
+            </div>
+        </div>
+
+        <div id="map" class="map-container"></div>
+
+        <div id="routeOptions" class="route-options hidden">
+            <div class="route-header">
+                <h3>Elige tu ruta</h3>
+                <button id="closeRoutes" class="close-btn">✕</button>
+            </div>
+            <div id="routeList" class="route-list"></div>
+        </div>
+
+        <div id="routeSummary" class="route-summary hidden">
+            <div class="summary-content">
+                <div class="summary-info">
+                    <div class="summary-route-name" id="summaryRouteName"></div>
+                    <div class="summary-destino" id="summaryDestino"></div>
+                    <div class="summary-details">
+                        <span id="summaryTime"></span>
+                        <span class="dot">•</span>
+                        <span id="summaryDistance"></span>
+                    </div>
+                </div>
+                <div class="summary-actions">
+                    <button id="startNavigation" class="btn-primary btn-sm">Iniciar</button>
+                    <button id="cancelRoute" class="btn-secondary btn-sm">Cancelar</button>
+                </div>
+            </div>
+        </div>
+
+        <button id="locateBtn" class="locate-btn" aria-label="Mi ubicación">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="3"/><path d="M12 2v4m0 12v4M2 12h4m12 0h4"/>
+            </svg>
+        </button>
+    </main>
+
+    <div id="loadingOverlay" class="loading-overlay hidden">
+        <div class="spinner"></div>
+        <p>Calculando rutas óptimas...</p>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

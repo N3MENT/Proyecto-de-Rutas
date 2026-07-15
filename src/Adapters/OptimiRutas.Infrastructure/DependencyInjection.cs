@@ -10,10 +10,8 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services)
     {
-        // Cuando alguien pida IRutaRepository, entrégale una única instancia (Singleton) de InMemoryRutaRepository
         services.AddSingleton<IRutaRepository, InMemoryRutaRepository>();
-
-        // Cuando el dominio pida IOptimizadorRutaService, entrégale una nueva instancia de VecinoMasCercanoOptimizadorService
+        services.AddSingleton<IUsuarioRepository, InMemoryUsuarioRepository>();
         services.AddTransient<IOptimizadorRutaService, VecinoMasCercanoOptimizadorService>();
 
         return services;

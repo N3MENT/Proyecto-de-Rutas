@@ -13,3 +13,19 @@ C:\Users\abrah\OneDrive\Desktop\PROYECTO RUTAS\src\Core\OptimiRutas.Application\
 C:\Users\abrah\OneDrive\Desktop\PROYECTO RUTAS\src\Core\OptimiRutas.Application\obj\Debug\net10.0\refint\OptimiRutas.Application.dll
 C:\Users\abrah\OneDrive\Desktop\PROYECTO RUTAS\src\Core\OptimiRutas.Application\obj\Debug\net10.0\OptimiRutas.Application.pdb
 C:\Users\abrah\OneDrive\Desktop\PROYECTO RUTAS\src\Core\OptimiRutas.Application\obj\Debug\net10.0\ref\OptimiRutas.Application.dll
+C:\Users\diego\OneDrive\Documentos\Proyecto-de-Rutas\src\Core\OptimiRutas.Application\bin\Debug\net10.0\OptimiRutas.Application.deps.json
+C:\Users\diego\OneDrive\Documentos\Proyecto-de-Rutas\src\Core\OptimiRutas.Application\bin\Debug\net10.0\OptimiRutas.Application.dll
+C:\Users\diego\OneDrive\Documentos\Proyecto-de-Rutas\src\Core\OptimiRutas.Application\bin\Debug\net10.0\OptimiRutas.Application.pdb
+C:\Users\diego\OneDrive\Documentos\Proyecto-de-Rutas\src\Core\OptimiRutas.Application\bin\Debug\net10.0\OptimiRutas.Domain.dll
+C:\Users\diego\OneDrive\Documentos\Proyecto-de-Rutas\src\Core\OptimiRutas.Application\bin\Debug\net10.0\OptimiRutas.Domain.pdb
+C:\Users\diego\OneDrive\Documentos\Proyecto-de-Rutas\src\Core\OptimiRutas.Application\obj\Debug\net10.0\OptimiRutas.Application.csproj.AssemblyReference.cache
+C:\Users\diego\OneDrive\Documentos\Proyecto-de-Rutas\src\Core\OptimiRutas.Application\obj\Debug\net10.0\OptimiRutas.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\diego\OneDrive\Documentos\Proyecto-de-Rutas\src\Core\OptimiRutas.Application\obj\Debug\net10.0\OptimiRutas.Application.AssemblyInfoInputs.cache
+C:\Users\diego\OneDrive\Documentos\Proyecto-de-Rutas\src\Core\OptimiRutas.Application\obj\Debug\net10.0\OptimiRutas.Application.AssemblyInfo.cs
+C:\Users\diego\OneDrive\Documentos\Proyecto-de-Rutas\src\Core\OptimiRutas.Application\obj\Debug\net10.0\OptimiRutas.Application.csproj.CoreCompileInputs.cache
+C:\Users\diego\OneDrive\Documentos\Proyecto-de-Rutas\src\Core\OptimiRutas.Application\obj\Debug\net10.0\OptimiRutas.Application.sourcelink.json
+C:\Users\diego\OneDrive\Documentos\Proyecto-de-Rutas\src\Core\OptimiRutas.Application\obj\Debug\net10.0\OptimiRu.6D6E842A.Up2Date
+C:\Users\diego\OneDrive\Documentos\Proyecto-de-Rutas\src\Core\OptimiRutas.Application\obj\Debug\net10.0\OptimiRutas.Application.dll
+C:\Users\diego\OneDrive\Documentos\Proyecto-de-Rutas\src\Core\OptimiRutas.Application\obj\Debug\net10.0\refint\OptimiRutas.Application.dll
+C:\Users\diego\OneDrive\Documentos\Proyecto-de-Rutas\src\Core\OptimiRutas.Application\obj\Debug\net10.0\OptimiRutas.Application.pdb
+C:\Users\diego\OneDrive\Documentos\Proyecto-de-Rutas\src\Core\OptimiRutas.Application\obj\Debug\net10.0\ref\OptimiRutas.Application.dll

@@ -1,6 +1,0 @@
-@OptimiRutas.Api_HostAddress = http://localhost:5052
-
-GET {{OptimiRutas.Api_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
