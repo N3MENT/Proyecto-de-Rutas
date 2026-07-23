@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("OptimiRutas.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+02684ebbfb04054ca1f6c804743e58eee55e7389")]
 [assembly: System.Reflection.AssemblyProductAttribute("OptimiRutas.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("OptimiRutas.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -32,3 +32,15 @@ C:\Users\sitiouno\Downloads\Proyecto-de-Rutas-main\Proyecto-de-Rutas-main\src\Co
 C:\Users\sitiouno\Downloads\Proyecto-de-Rutas-main\Proyecto-de-Rutas-main\src\Core\OptimiRutas.Domain\obj\Debug\net10.0\refint\OptimiRutas.Domain.dll
 C:\Users\sitiouno\Downloads\Proyecto-de-Rutas-main\Proyecto-de-Rutas-main\src\Core\OptimiRutas.Domain\obj\Debug\net10.0\OptimiRutas.Domain.pdb
 C:\Users\sitiouno\Downloads\Proyecto-de-Rutas-main\Proyecto-de-Rutas-main\src\Core\OptimiRutas.Domain\obj\Debug\net10.0\ref\OptimiRutas.Domain.dll
+C:\Users\sitiouno\Downloads\Proyecto-de-Rutas\src\Core\OptimiRutas.Domain\bin\Debug\net10.0\OptimiRutas.Domain.deps.json
+C:\Users\sitiouno\Downloads\Proyecto-de-Rutas\src\Core\OptimiRutas.Domain\bin\Debug\net10.0\OptimiRutas.Domain.dll
+C:\Users\sitiouno\Downloads\Proyecto-de-Rutas\src\Core\OptimiRutas.Domain\bin\Debug\net10.0\OptimiRutas.Domain.pdb
+C:\Users\sitiouno\Downloads\Proyecto-de-Rutas\src\Core\OptimiRutas.Domain\obj\Debug\net10.0\OptimiRutas.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\sitiouno\Downloads\Proyecto-de-Rutas\src\Core\OptimiRutas.Domain\obj\Debug\net10.0\OptimiRutas.Domain.AssemblyInfoInputs.cache
+C:\Users\sitiouno\Downloads\Proyecto-de-Rutas\src\Core\OptimiRutas.Domain\obj\Debug\net10.0\OptimiRutas.Domain.AssemblyInfo.cs
+C:\Users\sitiouno\Downloads\Proyecto-de-Rutas\src\Core\OptimiRutas.Domain\obj\Debug\net10.0\OptimiRutas.Domain.csproj.CoreCompileInputs.cache
+C:\Users\sitiouno\Downloads\Proyecto-de-Rutas\src\Core\OptimiRutas.Domain\obj\Debug\net10.0\OptimiRutas.Domain.sourcelink.json
+C:\Users\sitiouno\Downloads\Proyecto-de-Rutas\src\Core\OptimiRutas.Domain\obj\Debug\net10.0\OptimiRutas.Domain.dll
+C:\Users\sitiouno\Downloads\Proyecto-de-Rutas\src\Core\OptimiRutas.Domain\obj\Debug\net10.0\refint\OptimiRutas.Domain.dll
+C:\Users\sitiouno\Downloads\Proyecto-de-Rutas\src\Core\OptimiRutas.Domain\obj\Debug\net10.0\OptimiRutas.Domain.pdb
+C:\Users\sitiouno\Downloads\Proyecto-de-Rutas\src\Core\OptimiRutas.Domain\obj\Debug\net10.0\ref\OptimiRutas.Domain.dll

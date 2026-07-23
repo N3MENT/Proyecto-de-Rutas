@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "FTmH2Zbefcc=",
+  "dgSpecHash": "KoQJ2XpVDeo=",
   "success": true,
-  "projectFilePath": "C:\\Users\\sitiouno\\Downloads\\Proyecto-de-Rutas-main\\Proyecto-de-Rutas-main\\src\\Adapters\\OptimiRutas.Infrastructure\\OptimiRutas.Infrastructure.csproj",
+  "projectFilePath": "C:\\Users\\sitiouno\\Downloads\\Proyecto-de-Rutas\\src\\Adapters\\OptimiRutas.Infrastructure\\OptimiRutas.Infrastructure.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\sitiouno\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\10.0.9\\microsoft.extensions.dependencyinjection.abstractions.10.0.9.nupkg.sha512"
   ],
