@@ -85,6 +85,8 @@ function initVehicleSelector() {
 function toggleMenu() {
     document.getElementById('sideMenu').classList.toggle('hidden');
     document.getElementById('menuOverlay').classList.toggle('hidden');
+    // Recalcular tamaño del mapa tras mostrar/ocultar el menú
+    setTimeout(() => { try { if (map) map.invalidateSize(); } catch (e) {} }, 350);
 }
 
 // ============== MAPA ==============
@@ -107,6 +109,12 @@ function initMap() {
     map.on('zoomend', () => {
         userZoomed = true;
     });
+
+    // Algunos navegadores calculan mal el tamaño del contenedor si está dentro
+    // de un layout flexible al inicializarse. Forzamos una invalidación
+    // del tamaño después de un pequeño retardo y al redimensionar.
+    setTimeout(() => { try { map.invalidateSize(); } catch (e) {} }, 300);
+    window.addEventListener('resize', () => { try { if (map) map.invalidateSize(); } catch (e) {} });
 }
 
 async function detectCountry(lat, lng) {

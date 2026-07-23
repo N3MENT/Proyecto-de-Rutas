@@ -2,67 +2,1077 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#1a73e8">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>OptimiRutas - Iniciar Sesión</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OptimiRutas - Gestión Inteligente de Rutas para Pequeños Negocios</title>
+    <!-- Tailwind CSS para diseño moderno -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons para iconografía limpia -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f8fafc;
+        }
+        /* Animaciones de transición */
+        .drawer-transition {
+            transition: transform 0.3s ease-in-out;
+        }
+        .route-card-transition {
+            transition: all 0.2s ease-in-out;
+        }
+        .route-card-transition:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+        }
+        .transition-view {
+            transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+        }
+        /* Barra de scroll personalizada */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
 </head>
-<body class="auth-page">
-    <div class="auth-container">
-        <div class="auth-header">
-            <div class="logo">
-                <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-                    <circle cx="24" cy="24" r="24" fill="#1a73e8"/>
-                    <path d="M14 34L24 14L34 34H14Z" fill="white" stroke="white" stroke-width="2"/>
-                    <circle cx="24" cy="28" r="3" fill="#1a73e8"/>
-                </svg>
+<body class="overflow-x-hidden text-slate-800">
+
+    <!-- ==========================================================================
+       VISTA 1: LANDING PAGE DE BIENVENIDA (PÁGINA PRINCIPAL)
+       ========================================================================== -->
+    <div id="vista-landing" class="transition-view block">
+        <!-- NAV DE LA LANDING -->
+        <nav class="bg-white border-b border-slate-100">
+            <div class="px-6 py-4 mx-auto max-w-7xl flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="flex items-center justify-center w-10 h-10 text-white rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 shadow-md shadow-blue-500/20">
+                        <i data-lucide="route" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <span class="text-lg font-bold tracking-tight text-slate-900">OptimiRutas</span>
+                        <span class="block text-xs font-medium text-blue-600">Pequeños Negocios</span>
+                    </div>
+                </div>
+                <button onclick="navegarA('dashboard')" class="hidden sm:flex items-center gap-2 px-4 py-2 text-sm font-semibold text-slate-600 hover:text-blue-600 transition-colors">
+                    Ir directo al Panel
+                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </button>
             </div>
-            <h1>OptimiRutas</h1>
-            <p>Encuentra la mejor ruta a tu destino</p>
+        </nav>
+
+        <!-- SECCIÓN HERO -->
+        <section class="relative px-6 py-16 md:py-24 bg-gradient-to-b from-white to-slate-50 overflow-hidden">
+            <div class="absolute inset-0 opacity-40 bg-[radial-gradient(#3b82f6_1px,transparent_1px)] [background-size:32px_32px]"></div>
+            <div class="relative max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Hero Info -->
+                <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-blue-800 bg-blue-50 rounded-full">
+                        <span class="w-1.5 h-1.5 bg-blue-600 rounded-full animate-pulse"></span>
+                        Solución inteligente de logística local
+                    </span>
+                    <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-slate-900 leading-[1.1]">
+                        Optimiza tus rutas, <br class="hidden sm:inline">
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">ahorra combustible</span> <br>
+                        y deleita a tus clientes.
+                    </h1>
+                    <p class="max-w-xl mx-auto lg:mx-0 text-base sm:text-lg text-slate-500 font-medium">
+                        La herramienta sencilla de trazado y optimización de despachos creada especialmente para panaderías, tiendas de ropa, deliveries y comercios locales de tu comunidad.
+                    </p>
+                    
+                    <!-- CTAs principales -->
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
+                        <button onclick="navegarA('dashboard')" class="w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-4 text-base font-bold text-white transition-all bg-blue-600 rounded-2xl hover:bg-blue-700 active:scale-95 shadow-lg shadow-blue-500/25">
+                            Trazar mi Primera Ruta
+                            <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                        </button>
+                        <a href="#funcionalidades" class="w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-4 text-base font-semibold text-slate-600 transition-colors bg-white hover:bg-slate-50 border border-slate-200 rounded-2xl">
+                            Ver características
+                        </a>
+                    </div>
+
+                    <!-- Datos rápidos de prueba social ficticia -->
+                    <div class="grid grid-cols-3 gap-6 pt-6 border-t border-slate-200/60 max-w-md mx-auto lg:mx-0">
+                        <div>
+                            <span class="block text-2xl font-bold text-slate-900">30%</span>
+                            <span class="text-xs text-slate-400 font-semibold">Menos Gasolina</span>
+                        </div>
+                        <div>
+                            <span class="block text-2xl font-bold text-slate-900">45m</span>
+                            <span class="text-xs text-slate-400 font-semibold">Ahorrados al Día</span>
+                        </div>
+                        <div>
+                            <span class="block text-2xl font-bold text-slate-900">100%</span>
+                            <span class="text-xs text-slate-400 font-semibold">Cero Estrés</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hero Visual (Ilustración interactiva de Rutas) -->
+                <div class="lg:col-span-5 relative flex justify-center">
+                    <div class="relative w-full max-w-sm sm:max-w-md p-6 bg-white border border-slate-100 rounded-3xl shadow-2xl shadow-slate-200/50">
+                        <div class="flex items-center justify-between mb-4 border-b border-slate-50 pb-4">
+                            <div class="flex items-center gap-2">
+                                <span class="w-2.5 h-2.5 bg-amber-500 rounded-full"></span>
+                                <span class="text-xs font-bold text-slate-700">Ruta Recomendada IA</span>
+                            </div>
+                            <span class="text-xs text-emerald-600 font-bold bg-emerald-50 px-2 py-0.5 rounded-full">Eficiencia Óptima</span>
+                        </div>
+                        
+                        <!-- Mini mapa interactivo visual simulado -->
+                        <div class="bg-slate-950 rounded-2xl p-4 h-48 flex items-center justify-center relative overflow-hidden mb-4">
+                            <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:16px_16px]"></div>
+                            <svg class="w-full h-full absolute inset-0" viewBox="0 0 300 150">
+                                <path d="M 40 110 L 150 40 L 250 110" fill="none" stroke="#3b82f6" stroke-width="3" stroke-dasharray="4 4" />
+                                <circle cx="40" cy="110" r="10" fill="#1e293b" stroke="#ffffff" stroke-width="2" />
+                                <circle cx="150" cy="40" r="10" fill="#3b82f6" stroke="#ffffff" stroke-width="2" />
+                                <circle cx="250" cy="110" r="10" fill="#3b82f6" stroke="#ffffff" stroke-width="2" />
+                                <text x="40" y="113" fill="#fff" font-size="8" font-weight="bold" text-anchor="middle">H</text>
+                                <text x="150" y="43" fill="#fff" font-size="8" font-weight="bold" text-anchor="middle">1</text>
+                                <text x="250" y="113" fill="#fff" font-size="8" font-weight="bold" text-anchor="middle">2</text>
+                            </svg>
+                            <span class="absolute bottom-3 left-3 text-[10px] text-slate-400 bg-slate-900/80 px-2 py-1 rounded-md">Distancia: 4.2 km</span>
+                        </div>
+
+                        <!-- Mini tarjetas de paradas simulación -->
+                        <div class="space-y-2">
+                            <div class="p-2.5 bg-slate-50 rounded-xl flex items-center justify-between text-xs">
+                                <span class="font-bold text-slate-700">1. Calle de la Paz 89</span>
+                                <span class="text-[10px] text-slate-400">Entrega: 10:00 am</span>
+                            </div>
+                            <div class="p-2.5 bg-slate-50 rounded-xl flex items-center justify-between text-xs">
+                                <span class="font-bold text-slate-700">2. Plaza Central Edificio C</span>
+                                <span class="text-[10px] text-slate-400">Entrega: 10:25 am</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECCIÓN DE CARACTERÍSTICAS / FUNCIONALIDADES -->
+        <section id="funcionalidades" class="px-6 py-20 bg-white border-t border-slate-100">
+            <div class="max-w-7xl mx-auto space-y-16">
+                <!-- Header sección -->
+                <div class="text-center max-w-2xl mx-auto space-y-4">
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight">
+                        Todo lo que necesitas para tu logística local
+                    </h2>
+                    <p class="text-slate-500 font-medium">
+                        Diseñado sin complicaciones técnicas. Olvídate de planificar en un papel o de enviar direcciones sueltas por WhatsApp.
+                    </p>
+                </div>
+
+                <!-- Grid de características -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Feature 1: Creador y Buscador -->
+                    <div class="p-8 bg-slate-50/50 rounded-3xl border border-slate-100 space-y-4">
+                        <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center">
+                            <i data-lucide="map-pin" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900">Buscador y Creador Inteligente</h3>
+                        <p class="text-sm text-slate-500 leading-relaxed">
+                            Agrega direcciones de forma rápida con autocompletado inteligente. Asígnale un chofer y un nombre a la ruta para controlarlo todo.
+                        </p>
+                    </div>
+
+                    <!-- Feature 2: Optimización IA -->
+                    <div class="p-8 bg-slate-50/50 rounded-3xl border border-slate-100 space-y-4">
+                        <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center">
+                            <i data-lucide="sparkles" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900">Optimización Inteligente</h3>
+                        <p class="text-sm text-slate-500 leading-relaxed">
+                            Con un solo botón, nuestro algoritmo de vecino más cercano reorganiza las paradas garantizando el trayecto más corto y eficiente posible.
+                        </p>
+                    </div>
+
+                    <!-- Feature 3: Monitoreo en Vivo -->
+                    <div class="p-8 bg-slate-50/50 rounded-3xl border border-slate-100 space-y-4">
+                        <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                            <i data-lucide="activity" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900">Monitoreo y Seguimiento</h3>
+                        <p class="text-sm text-slate-500 leading-relaxed">
+                            Controla los despachos desde tu panel. El repartidor o tú pueden marcar entregas completadas para ver reflejado el progreso y los tiempos al instante.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN: PASO A PASO -->
+        <section class="px-6 py-20 bg-slate-50">
+            <div class="max-w-7xl mx-auto space-y-12">
+                <div class="text-center max-w-lg mx-auto">
+                    <h2 class="text-3xl font-extrabold text-slate-900">¿Cómo funciona?</h2>
+                    <p class="text-slate-500 mt-2">Traza rutas eficientes en 3 sencillos pasos.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+                    <!-- Paso 1 -->
+                    <div class="flex flex-col items-center text-center p-6 bg-white rounded-3xl shadow-sm border border-slate-100">
+                        <div class="w-10 h-10 rounded-full bg-blue-100 text-blue-700 font-bold flex items-center justify-center mb-4">1</div>
+                        <h4 class="font-bold text-lg text-slate-900">Ingresa tus paradas</h4>
+                        <p class="text-xs text-slate-400 mt-2">Agrega las direcciones de tus clientes del día en el configurador de rutas lateral.</p>
+                    </div>
+
+                    <!-- Paso 2 -->
+                    <div class="flex flex-col items-center text-center p-6 bg-white rounded-3xl shadow-sm border border-slate-100">
+                        <div class="w-10 h-10 rounded-full bg-amber-100 text-amber-700 font-bold flex items-center justify-center mb-4">2</div>
+                        <h4 class="font-bold text-lg text-slate-900">Optimiza con IA</h4>
+                        <p class="text-xs text-slate-400 mt-2">Presiona el botón de optimización. Nuestra lógica organizará los puntos para que recorras menos kilómetros.</p>
+                    </div>
+
+                    <!-- Paso 3 -->
+                    <div class="flex flex-col items-center text-center p-6 bg-white rounded-3xl shadow-sm border border-slate-100">
+                        <div class="w-10 h-10 rounded-full bg-emerald-100 text-emerald-700 font-bold flex items-center justify-center mb-4">3</div>
+                        <h4 class="font-bold text-lg text-slate-900">¡Inicia la entrega!</h4>
+                        <p class="text-xs text-slate-400 mt-2">Monitorea el progreso en tiempo real desde el mapa digital interactivo de tu panel.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN: BANNER FINAL CTA -->
+        <section class="px-6 py-16 bg-gradient-to-tr from-blue-600 to-indigo-700 text-white rounded-t-[3rem]">
+            <div class="max-w-4xl mx-auto text-center space-y-6">
+                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight">¿Listo para ahorrar tiempo y dinero en tus repartos?</h2>
+                <p class="text-white/85 text-base max-w-lg mx-auto">
+                    Únete a los pequeños negocios locales que ya optimizan sus trayectos diariamente de manera profesional.
+                </p>
+                <div class="pt-4">
+                    <button onclick="navegarA('dashboard')" class="px-8 py-4 bg-white text-blue-600 font-bold text-md rounded-2xl shadow-xl shadow-blue-900/30 hover:bg-slate-50 transition-all hover:scale-105 active:scale-95">
+                        Empezar a Trazar Ahora
+                    </button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+
+    <!-- ==========================================================================
+       VISTA 2: DASHBOARD INTERACTIVO DE GESTIÓN (MÓDULO DE CONTROL DE RUTAS)
+       ========================================================================== -->
+    <div id="vista-dashboard" class="transition-view hidden">
+        <!-- BARRA DE NAVEGACIÓN -->
+        <nav class="sticky top-0 z-40 bg-white border-b border-slate-100 shadow-sm">
+            <div class="px-6 py-4 mx-auto max-w-7xl">
+                <div class="flex items-center justify-between">
+                    <!-- Logo / Retorno a Inicio -->
+                    <button onclick="navegarA('landing')" class="flex items-center gap-3 group text-left">
+                        <div class="flex items-center justify-center w-10 h-10 text-white rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600">
+                            <i data-lucide="route" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <span class="text-lg font-bold tracking-tight text-slate-900 group-hover:text-blue-600 transition-colors">OptimiRutas</span>
+                            <span class="block text-[10px] text-slate-400 font-medium">← Volver a Portada</span>
+                        </div>
+                    </button>
+
+                    <!-- Perfil Negocio / Estado -->
+                    <div class="flex items-center gap-4">
+                        <div class="hidden text-right md:block">
+                            <p class="text-sm font-semibold text-slate-900">Panadería Central</p>
+                            <p class="text-xs text-slate-500">Plan Premium • 2 repartidores</p>
+                        </div>
+                        <div class="w-10 h-10 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center font-bold text-blue-600">
+                            PC
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- CONTENIDO PRINCIPAL -->
+        <main class="px-6 pt-8 pb-24 mx-auto max-w-7xl">
+            
+            <!-- ENCABEZADO DASHBOARD -->
+                <div class="flex flex-col gap-4 mb-8 md:flex-row md:items-center md:justify-between">
+            
+            <h1 class="text-2xl md:text-3xl font-bold tracking-tight text-slate-900">Panel de Control</h1>
+            <p class="mt-1 text-slate-500">Administra, optimiza y monitorea tus entregas de hoy.</p>
         </div>
+        
+        <div class="flex items-center gap-3">
+            <button onclick="navegarA('landing')" class="flex items-center justify-center gap-2 px-5 py-3 text-sm font-semibold text-slate-600 transition-colors bg-white hover:bg-slate-50 border border-slate-200 rounded-xl shadow-sm">
+                <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                Volver al Inicio
+            </button>
 
-        <div class="auth-card">
-            <div class="auth-tabs">
-                <button class="tab-btn active" data-tab="login">Iniciar Sesión</button>
-                <button class="tab-btn" data-tab="register">Registrarse</button>
-            </div>
-
-            <form id="loginForm" class="auth-form active">
-                <div class="form-group">
-                    <label for="loginEmail">Correo electrónico</label>
-                    <input type="email" id="loginEmail" placeholder="tu@email.com" required>
-                </div>
-                <div class="form-group">
-                    <label for="loginPassword">Contraseña</label>
-                    <input type="password" id="loginPassword" placeholder="••••••••" required>
-                </div>
-                <div id="loginError" class="error-msg hidden"></div>
-                <button type="submit" class="btn-primary">Entrar</button>
-            </form>
-
-            <form id="registerForm" class="auth-form">
-                <div class="form-group">
-                    <label for="regName">Nombre completo</label>
-                    <input type="text" id="regName" placeholder="Nombre y apellido" required minlength="3" title="Ingresa tu nombre y apellido (solo letras, mínimo 3 caracteres)">
-                </div>
-                <div class="form-group">
-                    <label for="regEmail">Correo electrónico</label>
-                    <input type="email" id="regEmail" placeholder="tu@email.com" required title="Ingresa un correo válido (ej: usuario@dominio.com)">
-                </div>
-                <div class="form-group">
-                    <label for="regPassword">Contraseña</label>
-                    <input type="password" id="regPassword" placeholder="Mín. 8 caracteres, 1 mayús., 1 minús., 1 número" minlength="8" required title="Mínimo 8 caracteres: 1 mayúscula, 1 minúscula y 1 número">
-                </div>
-                <div id="registerError" class="error-msg hidden"></div>
-                <div id="registerSuccess" class="success-msg hidden"></div>
-                <button type="submit" class="btn-primary">Crear Cuenta</button>
-            </form>
+            <button onclick="abrirCreadorRuta()" class="flex items-center justify-center gap-2 px-5 py-3 text-sm font-semibold text-white transition-all bg-blue-600 rounded-xl hover:bg-blue-700 active:scale-95 shadow-md shadow-blue-500/10">
+                <i data-lucide="plus" class="w-4 h-4"></i>
+                Trazar Nueva Ruta
+            </button>
         </div>
     </div>
 
-    <script src="js/auth.js"></script>
+            <!-- SECCIÓN DE KPIS (TARJETAS DE RENDIMIENTO) -->
+            <div class="grid grid-cols-1 gap-5 mb-8 sm:grid-cols-2 lg:grid-cols-4">
+                <!-- KPI 1: Rutas Activas -->
+                <div class="p-6 bg-white border border-slate-100 rounded-2xl shadow-sm flex items-center justify-between">
+                    <div>
+                        <span class="text-xs font-semibold tracking-wider text-slate-400 uppercase">Rutas del Día</span>
+                        <h3 id="kpi-rutas-totales" class="mt-2 text-3xl font-bold text-slate-900">1</h3>
+                        <span class="flex items-center gap-1 mt-2 text-xs font-medium text-emerald-600">
+                            <i data-lucide="trending-up" class="w-3 h-3"></i>
+                            Todas organizadas
+                        </span>
+                    </div>
+                    <div class="p-4 bg-blue-50 text-blue-600 rounded-xl">
+                        <i data-lucide="map" class="w-6 h-6"></i>
+                    </div>
+                </div>
+
+                <!-- KPI 2: Paradas Completadas -->
+                <div class="p-6 bg-white border border-slate-100 rounded-2xl shadow-sm flex items-center justify-between">
+                    <div>
+                        <span class="text-xs font-semibold tracking-wider text-slate-400 uppercase">Entregas</span>
+                        <h3 id="kpi-entregas" class="mt-2 text-3xl font-bold text-slate-900">1/3</h3>
+                        <div class="w-24 bg-slate-100 h-1.5 rounded-full mt-2 overflow-hidden">
+                            <div id="progreso-entregas-bar" class="bg-emerald-500 h-full transition-all duration-500" style="width: 33%"></div>
+                        </div>
+                    </div>
+                    <div class="p-4 bg-emerald-50 text-emerald-600 rounded-xl">
+                        <i data-lucide="check-circle-2" class="w-6 h-6"></i>
+                    </div>
+                </div>
+
+                <!-- KPI 3: Tiempo Estimado -->
+                <div class="p-6 bg-white border border-slate-100 rounded-2xl shadow-sm flex items-center justify-between">
+                    <div>
+                        <span class="text-xs font-semibold tracking-wider text-slate-400 uppercase">Tiempo Total</span>
+                        <h3 id="kpi-tiempo" class="mt-2 text-3xl font-bold text-slate-900">45 min</h3>
+                        <span class="block mt-2 text-xs text-slate-500">Optimizado por tráfico</span>
+                    </div>
+                    <div class="p-4 bg-amber-50 text-amber-600 rounded-xl">
+                        <i data-lucide="clock" class="w-6 h-6"></i>
+                    </div>
+                </div>
+
+                <!-- KPI 4: Dinero/Gasolina Ahorrado -->
+                <div class="p-6 bg-white border border-slate-100 rounded-2xl shadow-sm flex items-center justify-between">
+                    <div>
+                        <span class="text-xs font-semibold tracking-wider text-slate-400 uppercase">Ahorro Estimado</span>
+                        <h3 id="kpi-ahorro" class="mt-2 text-3xl font-bold text-slate-950 text-emerald-600">$18.50</h3>
+                        <span class="block mt-2 text-xs text-slate-400">En combustible hoy</span>
+                    </div>
+                    <div class="p-4 bg-purple-50 text-purple-600 rounded-xl">
+                        <i data-lucide="piggy-bank" class="w-6 h-6"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DIVISIÓN: MAPA VS MONITOREO -->
+            <div class="grid grid-cols-1 gap-8 lg:grid-cols-12">
+                
+                <!-- PANEL IZQUIERDO: LISTADO Y DETALLES DE RUTAS (5 Columnas) -->
+                <div class="lg:col-span-5 space-y-6">
+                    <div class="p-6 bg-white border border-slate-100 rounded-2xl shadow-sm">
+                        <div class="flex items-center justify-between mb-6">
+                            <div>
+                                <h2 class="text-lg font-bold text-slate-900">Monitoreo Activo</h2>
+                                <p class="text-xs text-slate-500">Selecciona o simula el avance de tus despachos</p>
+                            </div>
+                            <span class="px-2.5 py-1 text-xs font-semibold text-blue-700 bg-blue-50 rounded-full" id="conteo-paradas-badge">3 Paradas</span>
+                        </div>
+
+                        <!-- Lista de Paradas Interactiva (Simulación) -->
+                        <div id="lista-paradas-dashboard" class="space-y-4">
+                            <!-- Las paradas se inyectarán dinámicamente -->
+                        </div>
+                    </div>
+
+                    <!-- Consejos de optimización interactivos -->
+                    <div class="p-5 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-2xl shadow-sm relative overflow-hidden">
+                        <div class="relative z-10">
+                            <span class="inline-block px-2.5 py-0.5 text-[10px] font-bold bg-white/20 uppercase tracking-widest rounded-full mb-3">Sugerencia Pro</span>
+                            <h4 class="font-bold text-md leading-snug">¡Ruta Inteligente Generada!</h4>
+                            <p class="text-xs text-white/80 mt-1">Nuestra IA detectó que agrupando la Parada #2 y la Parada #3 ahorras hasta 15 minutos en gasolina.</p>
+                        </div>
+                        <div class="absolute -right-6 -bottom-6 text-white/10">
+                            <i data-lucide="zap" class="w-32 h-32"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PANEL DERECHO: MAPA EN TIEMPO REAL (7 Columnas) -->
+                <div class="lg:col-span-7 h-[500px] lg:h-auto min-h-[450px] bg-slate-900 rounded-2xl border border-slate-800 shadow-lg relative overflow-hidden flex flex-col">
+                    <!-- Barra superior de estado del mapa -->
+                    <div class="absolute top-4 left-4 z-10 bg-slate-900/95 backdrop-blur-md border border-slate-800 px-4 py-2.5 rounded-xl flex items-center gap-3 shadow-xl">
+                        <span class="w-2.5 h-2.5 bg-emerald-500 rounded-full animate-ping"></span>
+                        <span class="text-xs font-semibold text-slate-200">Enlace con GPS activo</span>
+                    </div>
+
+                    <div class="absolute top-4 right-4 z-10 flex gap-2">
+                        <button onclick="reajustarMapa()" class="bg-slate-800 hover:bg-slate-700 text-white p-2.5 rounded-xl border border-slate-700 transition-colors shadow-lg">
+                            <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+
+                    <!-- Lienzo del Mapa (Simulado con SVG Dinámico interactivo) -->
+                    <div class="flex-1 relative bg-[#0f172a] overflow-hidden flex items-center justify-center">
+                        <!-- Cuadrícula / Grid de fondo para simular mapa -->
+                        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:24px_24px]"></div>
+                        
+                        <!-- SVG para dibujar las calles, puntos y la línea de ruta -->
+                        <svg id="mapa-svg" class="w-full h-full absolute inset-0" viewBox="0 0 600 450">
+                            <!-- Calles dibujadas de fondo -->
+                            <line x1="50" y1="0" x2="50" y2="450" stroke="#334155" stroke-width="6" opacity="0.3" />
+                            <line x1="200" y1="0" x2="200" y2="450" stroke="#334155" stroke-width="8" opacity="0.3" />
+                            <line x1="400" y1="0" x2="400" y2="450" stroke="#334155" stroke-width="6" opacity="0.3" />
+                            <line x1="550" y1="0" x2="550" y2="450" stroke="#334155" stroke-width="6" opacity="0.3" />
+
+                            <line x1="0" y1="100" x2="600" y2="100" stroke="#334155" stroke-width="8" opacity="0.3" />
+                            <line x1="0" y1="250" x2="600" y2="250" stroke="#334155" stroke-width="6" opacity="0.3" />
+                            <line x1="0" y1="380" x2="600" y2="380" stroke="#334155" stroke-width="8" opacity="0.3" />
+
+                            <!-- Línea de trazado de ruta conectando los puntos -->
+                            <path id="ruta-trazado" d="" fill="none" stroke="#3b82f6" stroke-width="4" stroke-dasharray="8 4" stroke-linecap="round" class="transition-all duration-1000" />
+                            <path id="ruta-completada-trazado" d="" fill="none" stroke="#10b981" stroke-width="4" stroke-linecap="round" class="transition-all duration-1000" />
+
+                            <!-- Puntos de Parada (Inyectados con JS) -->
+                            <g id="svg-puntos-grupo"></g>
+
+                            <!-- Vehículo repartidor moviéndose de forma animada -->
+                            <g id="svg-vehiculo" class="transition-all duration-1000 ease-in-out" transform="translate(-100, -100)">
+                                <circle r="14" fill="#3b82f6" class="animate-pulse opacity-30" />
+                                <circle r="8" fill="#3b82f6" stroke="#ffffff" stroke-width="2" />
+                                <polygon points="-3,-4 5,0 -3,4" fill="#ffffff" transform="rotate(0)" id="vehiculo-flecha" />
+                            </g>
+                        </svg>
+
+                        <!-- Caja de información flotante del mapa -->
+                        <div id="map-tooltip" class="absolute bottom-6 left-6 right-6 bg-slate-950/90 border border-slate-800 p-4 rounded-xl backdrop-blur-md shadow-2xl transition-all duration-300 opacity-0 transform translate-y-2 pointer-events-none">
+                            <div class="flex items-start gap-3">
+                                <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 font-bold" id="tooltip-indice">1</div>
+                                <div class="flex-1">
+                                    <h5 class="text-xs font-bold text-slate-100" id="tooltip-titulo">Calle 10 con Av. 4</h5>
+                                    <p class="text-[10px] text-slate-400 mt-0.5" id="tooltip-info">Cliente: Juan Pérez • Entrega: Pendiente</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- SLIDE PANEL (DRAWER) LATERAL: CREACIÓN Y TRAZADO DE RUTA -->
+    <div id="drawer-background" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300" onclick="cerrarCreadorRuta()"></div>
+    
+    <div id="drawer-creador" class="fixed top-0 right-0 z-50 w-full max-w-lg h-full bg-white shadow-2xl border-l border-slate-100 transform translate-x-full drawer-transition flex flex-col">
+        <!-- Header -->
+        <div class="p-6 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 bg-blue-50 text-blue-600 rounded-lg flex items-center justify-center">
+                    <i data-lucide="git-commit" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold text-slate-900">Configurador de Ruta</h3>
+                    <p class="text-xs text-slate-500">Agrega direcciones y optimiza el recorrido</p>
+                </div>
+            </div>
+            <button onclick="cerrarCreadorRuta()" class="p-2 hover:bg-slate-100 rounded-lg transition-colors text-slate-400 hover:text-slate-600">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+        </div>
+
+        <!-- Cuerpo del Formulario (Scrollable) -->
+        <div class="flex-1 overflow-y-auto p-6 space-y-6">
+            <!-- Paso 1: Datos Base -->
+            <div>
+                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">1. Identificación del Viaje</label>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="text-[11px] text-slate-400">Nombre de la Ruta</label>
+                        <input type="text" id="input-ruta-nombre" value="Ruta Mañana" class="w-full mt-1 px-3 py-2 text-sm bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-500 transition-colors">
+                    </div>
+                    <div>
+                        <label class="text-[11px] text-slate-400">Vehículo / Repartidor</label>
+                        <select id="input-ruta-repartidor" class="w-full mt-1 px-3 py-2 text-sm bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-500 transition-colors">
+                            <option value="Carlos Gómez">Carlos Gómez (Moto)</option>
+                            <option value="Laura Pérez">Laura Pérez (Furgoneta)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Paso 2: Buscador y agregación de direcciones -->
+            <div>
+                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">2. Añadir Paradas</label>
+                <div class="space-y-3">
+                    <div>
+                        <label class="text-[11px] text-slate-400">Escribe una Dirección de tu localidad</label>
+                        <div class="relative">
+                            <input type="text" id="buscador-direccion" oninput="filtrarSugerencias(this.value)" placeholder="Ej. Calle de la Amargura 23, Panadería..." class="w-full mt-1 pl-10 pr-4 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-blue-500 transition-colors">
+                            <i data-lucide="search" class="absolute left-3.5 top-3.5 w-4 h-4 text-slate-400"></i>
+                        </div>
+                        
+                        <!-- Lista de sugerencias autocompletables -->
+                        <div id="lista-sugerencias" class="hidden mt-1 bg-white border border-slate-100 rounded-xl shadow-lg max-h-48 overflow-y-auto divide-y divide-slate-50 z-20 absolute left-6 right-6">
+                            <!-- Inyectados por JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Paso 3: Lista de paradas agregadas para esta ruta -->
+            <div>
+                <div class="flex items-center justify-between mb-2">
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">3. Paradas de la Ruta</label>
+                    <span class="text-xs text-slate-400" id="contador-paradas-creador">0 agregadas</span>
+                </div>
+
+                <!-- Lista donde se renderizan las paradas añadidas -->
+                <div id="paradas-añadidas-lista" class="space-y-2 max-h-64 overflow-y-auto pr-1">
+                    <!-- Estado vacío -->
+                    <div id="paradas-vacias-estado" class="text-center py-8 border-2 border-dashed border-slate-100 rounded-xl text-slate-400">
+                        <i data-lucide="map-pin" class="w-8 h-8 mx-auto mb-2 opacity-50"></i>
+                        <p class="text-xs">Aún no has agregado paradas para esta ruta.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer fijo -->
+        <div class="p-6 border-t border-slate-100 bg-slate-50 flex flex-col gap-3">
+            <!-- Botón de Optimización Inteligente -->
+            <button onclick="optimizarRutaCreador()" id="btn-optimizar" class="hidden w-full items-center justify-center gap-2 py-3 bg-amber-500 hover:bg-amber-600 text-white rounded-xl font-bold text-sm transition-all shadow-md shadow-amber-500/10 active:scale-95">
+                <i data-lucide="sparkles" class="w-4 h-4"></i>
+                <span id="texto-btn-optimizar">Optimizar Orden (Recomendado IA)</span>
+            </button>
+
+            <button onclick="guardarRuta()" class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold text-sm transition-all shadow-md shadow-blue-500/10 active:scale-95">
+                Crear y Activar Ruta
+            </button>
+        </div>
+    </div>
+
+
+    <!-- SCRIPT DE COMPORTAMIENTO INTERACTIVO BAJO PRINCIPIOS HEXAGONALES -->
+    <script>
+        /* ==========================================================================
+           ARQUITECTURA DE DOMINIO, CASOS DE USO Y ADAPTADORES (DDD & HEXAGONAL)
+           ========================================================================== */
+
+        // --- CAPA DE DOMINIO (Modelos puros de Negocio sin dependencias) ---
+        class RutaNegocio {
+            constructor(id, nombre, repartidor, paradas = [], estado = 'pendiente') {
+                this.id = id;
+                this.nombre = nombre;
+                this.repartidor = repartidor;
+                this.paradas = paradas; // Array de ParadaNegocio
+                this.estado = estado;
+            }
+
+            calcularProgreso() {
+                if (this.paradas.length === 0) return 0;
+                const completadas = this.paradas.filter(p => p.completada).length;
+                return Math.round((completadas / this.paradas.length) * 100);
+            }
+
+            obtenerEstadisticas() {
+                const total = this.paradas.length;
+                const completadas = this.paradas.filter(p => p.completada).length;
+                const minutosEstimados = total * 15; // 15 minutos por entrega promedio
+                const ahorro = total * 6.10; // Ahorro ficticio por kilómetro optimizado
+                return { total, completadas, minutosEstimados, ahorro };
+            }
+        }
+
+        class ParadaNegocio {
+            constructor(id, direccion, lat, lng, completada = false, orden = 0) {
+                this.id = id;
+                this.direccion = direccion;
+                this.lat = lat;
+                this.lng = lng;
+                this.completada = completada;
+                this.orden = orden;
+            }
+        }
+
+        // --- PUERTOS (Interfaces conceptuales en JS usando clases base) ---
+        class IRutaRepository {
+            guardar(ruta) { throw new Error("Método no implementado"); }
+            obtenerTodas() { throw new Error("Método no implementado"); }
+            actualizarParada(rutaId, paradaId, completada) { throw new Error("Método no implementado"); }
+        }
+
+        // --- CAPA DE APLICACIÓN (Casos de Uso del negocio) ---
+        class RegistrarRutaUseCase {
+            constructor(rutaRepository) {
+                this.rutaRepository = rutaRepository;
+            }
+            ejecutar(rutaDTO) {
+                const paradas = rutaDTO.paradas.map((p, index) => 
+                    new ParadaNegocio(p.id, p.direccion, p.lat, p.lng, false, index)
+                );
+                const nuevaRuta = new RutaNegocio(
+                    rutaDTO.id,
+                    rutaDTO.nombre,
+                    rutaDTO.repartidor,
+                    paradas,
+                    'pendiente'
+                );
+                this.rutaRepository.guardar(nuevaRuta);
+                return nuevaRuta;
+            }
+        }
+
+        class OptimizarRutaUseCase {
+            // Algoritmo de optimización simulado (Vecino más cercano)
+            ejecutar(paradas) {
+                if (paradas.length <= 1) return paradas;
+                
+                // Punto de partida del Negocio (Panadería Central) en el centro (300, 225)
+                const inicio = { lat: 225, lng: 300 };
+                let desordenadas = [...paradas];
+                let ordenadas = [];
+                let actual = inicio;
+
+                while (desordenadas.length > 0) {
+                    let masCercanoIndice = 0;
+                    let distanciaMinima = Infinity;
+
+                    for (let i = 0; i < desordenadas.length; i++) {
+                        const dist = Math.hypot(desordenadas[i].lat - actual.lat, desordenadas[i].lng - actual.lng);
+                        if (dist < distanciaMinima) {
+                            distanciaMinima = dist;
+                            masCercanoIndice = i;
+                        }
+                    }
+
+                    actual = desordenadas[masCercanoIndice];
+                    ordenadas.push(desordenadas.splice(masCercanoIndice, 1)[0]);
+                }
+
+                // Reasignar orden numérico
+                ordenadas.forEach((p, idx) => p.orden = idx);
+                return ordenadas;
+            }
+        }
+
+        // --- INFRAESTRUCTURA (Adaptadores: Base de datos en memoria y UI Controller) ---
+        class EnMemoriaRutaRepository extends IRutaRepository {
+            constructor() {
+                super();
+                // Data semilla inicial
+                this.rutas = [
+                    new RutaNegocio("RUT-01", "Ruta de la Mañana", "Carlos Gómez", [
+                        new ParadaNegocio("P-1", "Av. Principal 124 (Supermercado Mercadona)", 150, 100, true, 0),
+                        new ParadaNegocio("P-2", "Calle de la Paz 89 (Restaurante El Lago)", 250, 400, false, 1),
+                        new ParadaNegocio("P-3", "Plaza Central Edificio C, Local 4", 380, 200, false, 2)
+                    ])
+                ];
+            }
+
+            guardar(ruta) {
+                this.rutas.push(ruta);
+            }
+
+            obtenerTodas() {
+                return this.rutas;
+            }
+
+            obtenerPorId(id) {
+                return this.rutas.find(r => r.id === id);
+            }
+        }
+
+        /* ==========================================================================
+           CONTROLADOR DE UI & INTERACTIVIDAD DE LA VISTA (Frontend Adapter)
+           ========================================================================== */
+
+        // Instancias de la Arquitectura
+        const repo = new EnMemoriaRutaRepository();
+        const registrarRutaUseCase = new RegistrarRutaUseCase(repo);
+        const optimizarRutaUseCase = new OptimizarRutaUseCase();
+
+        // Estado local de la UI
+        let paradasTemporales = []; // Almacena paradas mientras se crea una ruta
+        let rutaSeleccionadaId = "RUT-01"; // Ruta actualmente visible en el dashboard
+        let vehiculoPosicionIndex = 0;
+
+        // Base de Datos de Direcciones Sugeridas (Para el autocompletado interactivo)
+        const baseDirecciones = [
+            { direccion: "Av. Principal 124 (Supermercado Mercadona)", lat: 150, lng: 100 },
+            { direccion: "Calle de la Paz 89 (Restaurante El Lago)", lat: 250, lng: 400 },
+            { direccion: "Plaza Central Edificio C, Local 4", lat: 380, lng: 200 },
+            { direccion: "Av. Bolívar Cruce con Calle Flores", lat: 100, lng: 450 },
+            { direccion: "Zona Industrial Galpón N-15", lat: 380, lng: 500 },
+            { direccion: "Residencias Las Flores, Torre B Apto 3", lat: 280, lng: 150 },
+            { direccion: "Calle Los Pinos Nro 42 (Cerca del Parque)", lat: 80, lng: 250 }
+        ];
+
+        // Al iniciar la página
+        window.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            cargarDashboard();
+            inicializarVehiculo();
+        });
+
+        // NAVEGACIÓN ENTRE VISTAS (SPA Interno)
+        function navegarA(vista) {
+            const vistaLanding = document.getElementById('vista-landing');
+            const vistaDashboard = document.getElementById('vista-dashboard');
+
+            if (vista === 'landing') {
+                vistaDashboard.classList.replace('block', 'hidden');
+                vistaLanding.classList.replace('hidden', 'block');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else if (vista === 'dashboard') {
+                vistaLanding.classList.replace('block', 'hidden');
+                vistaDashboard.classList.replace('hidden', 'block');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                // Volver a renderizar mapa por si cambiaron dimensiones
+                setTimeout(reajustarMapa, 50);
+            }
+        }
+
+        // Carga la información de la ruta en el Dashboard
+        function cargarDashboard() {
+            const ruta = repo.obtenerPorId(rutaSeleccionadaId);
+            if (!ruta) return;
+
+            // Actualizar KPIs
+            const stats = ruta.obtenerEstadisticas();
+            document.getElementById('kpi-rutas-totales').innerText = repo.obtenerTodas().length;
+            document.getElementById('kpi-entregas').innerText = `${stats.completadas}/${stats.total}`;
+            document.getElementById('kpi-tiempo').innerText = `${stats.minutosEstimados} min`;
+            document.getElementById('kpi-ahorro').innerText = `$${stats.ahorro.toFixed(2)}`;
+
+            const porcentaje = ruta.calcularProgreso();
+            document.getElementById('progreso-entregas-bar').style.width = `${porcentaje}%`;
+
+            document.getElementById('conteo-paradas-badge').innerText = `${stats.total} Paradas`;
+
+            // Renderizar listado de paradas monitoreadas
+            const contenedor = document.getElementById('lista-paradas-dashboard');
+            contenedor.innerHTML = '';
+
+            ruta.paradas.sort((a,b) => a.orden - b.orden).forEach((parada, i) => {
+                const div = document.createElement('div');
+                div.className = `route-card-transition p-4 bg-white border ${parada.completada ? 'border-emerald-100 bg-emerald-50/20' : 'border-slate-100'} rounded-xl shadow-sm flex items-start gap-4 cursor-pointer`;
+                div.onclick = () => enfocarPuntoMapa(parada);
+
+                const statusColor = parada.completada 
+                    ? 'bg-emerald-500 text-white' 
+                    : 'bg-blue-100 text-blue-700';
+
+                div.innerHTML = `
+                    <div class="w-8 h-8 rounded-lg ${statusColor} flex items-center justify-center font-bold text-sm shrink-0">
+                        ${parada.completada ? '✓' : i + 1}
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h4 class="font-bold text-sm text-slate-800 truncate">${parada.direccion}</h4>
+                        <div class="flex items-center gap-2 mt-1">
+                            <span class="text-[10px] font-medium text-slate-400">Cliente Recibe</span>
+                            <span class="w-1.5 h-1.5 bg-slate-300 rounded-full"></span>
+                            <span class="text-[10px] text-slate-500">Orden: #${i+1}</span>
+                        </div>
+                    </div>
+                    <button onclick="alternarEstadoParada('${parada.id}', event)" class="px-3 py-1.5 text-xs font-semibold rounded-lg border transition-all ${
+                        parada.completada 
+                        ? 'border-emerald-200 text-emerald-700 hover:bg-emerald-50' 
+                        : 'border-slate-200 text-slate-700 hover:bg-slate-50'
+                    }">
+                        ${parada.completada ? 'Completado' : 'Entregar'}
+                    </button>
+                `;
+                contenedor.appendChild(div);
+            });
+
+            dibujarMapa(ruta);
+            moverVehiculoSiguienteParada(ruta);
+        }
+
+        // Alterna el estado de una parada (Entregado / Pendiente)
+        function alternarEstadoParada(paradaId, event) {
+            event.stopPropagation(); // Evitar abrir tooltip del mapa
+            const ruta = repo.obtenerPorId(rutaSeleccionadaId);
+            const parada = ruta.paradas.find(p => p.id === paradaId);
+            if (parada) {
+                parada.completada = !parada.completada;
+                cargarDashboard();
+            }
+        }
+
+        /* ==========================================================================
+           INTERACTIVIDAD DEL MAPA SIMULADO (SVG DINÁMICO)
+           ========================================================================== */
+
+        function dibujarMapa(ruta) {
+            const svgGrupo = document.getElementById('svg-puntos-grupo');
+            svgGrupo.innerHTML = '';
+
+            const puntos = ruta.paradas.sort((a,b) => a.orden - b.orden);
+            let pathD = "M 300 225"; // Iniciar en el centro (La base del negocio)
+            let pathCompletadoD = "M 300 225";
+
+            // Base/Negocio central
+            const centralCircle = `
+                <g transform="translate(300, 225)" class="cursor-pointer">
+                    <circle r="18" fill="#1e293b" stroke="#ffffff" stroke-width="2" />
+                    <path d="M-6,3 L6,3 L6,-4 L0,-8 L-6,-4 Z" fill="#ffffff" />
+                </g>
+            `;
+            svgGrupo.innerHTML += centralCircle;
+
+            puntos.forEach((p, index) => {
+                const color = p.completada ? '#10b981' : '#3b82f6';
+                const colorTexto = '#ffffff';
+
+                // Agregar línea al trazado general de ruta
+                pathD += ` L ${p.lng} ${p.lat}`;
+                if (p.completada) {
+                    pathCompletadoD += ` L ${p.lng} ${p.lat}`;
+                }
+
+                // Nodo SVG para cada parada
+                const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+                g.setAttribute("transform", `translate(${p.lng}, ${p.lat})`);
+                g.setAttribute("class", "cursor-pointer group");
+                g.onclick = () => mostrarTooltip(p, index + 1);
+
+                g.innerHTML = `
+                    <circle r="15" fill="${color}" stroke="#ffffff" stroke-width="2" class="transition-colors duration-300" />
+                    <text y="4" text-anchor="middle" fill="${colorTexto}" font-size="11" font-weight="bold">${index + 1}</text>
+                    <circle r="22" fill="transparent" class="hover:stroke-blue-400 hover:stroke-2" />
+                `;
+                svgGrupo.appendChild(g);
+            });
+
+            document.getElementById('ruta-trazado').setAttribute('d', pathD);
+            document.getElementById('ruta-completada-trazado').setAttribute('d', pathCompletadoD);
+        }
+
+        function inicializarVehiculo() {
+            // El vehículo empieza en el centro
+            const vehiculo = document.getElementById('svg-vehiculo');
+            vehiculo.setAttribute('transform', 'translate(300, 225)');
+        }
+
+        function moverVehiculoSiguienteParada(ruta) {
+            // Encontrar la primera parada que aún no esté completada
+            const siguiente = ruta.paradas.sort((a,b) => a.orden - b.orden).find(p => !p.completada);
+            const vehiculo = document.getElementById('svg-vehiculo');
+            
+            if (siguiente) {
+                vehiculo.setAttribute('transform', `translate(${siguiente.lng}, ${siguiente.lat})`);
+            } else {
+                // Si todo está completado, vuelve al negocio
+                vehiculo.setAttribute('transform', 'translate(300, 225)');
+            }
+        }
+
+        function mostrarTooltip(parada, indice) {
+            const tooltip = document.getElementById('map-tooltip');
+            document.getElementById('tooltip-indice').innerText = indice;
+            document.getElementById('tooltip-titulo').innerText = parada.direccion;
+            document.getElementById('tooltip-info').innerText = `Entrega: ${parada.completada ? 'Entregado ✓' : 'En camino (Pendiente)'}`;
+            
+            tooltip.style.opacity = '1';
+            tooltip.style.transform = 'translateY(0)';
+
+            setTimeout(() => {
+                tooltip.style.opacity = '0';
+                tooltip.style.transform = 'translateY(8px)';
+            }, 3500);
+        }
+
+        function enfocarPuntoMapa(parada) {
+            const index = repo.obtenerPorId(rutaSeleccionadaId).paradas.indexOf(parada);
+            mostrarTooltip(parada, index + 1);
+        }
+
+        function reajustarMapa() {
+            // Animación rápida de refresco del mapa
+            const mapa = document.getElementById('mapa-svg');
+            mapa.style.transform = 'scale(0.98)';
+            setTimeout(() => {
+                mapa.style.transform = 'scale(1)';
+            }, 200);
+            cargarDashboard();
+        }
+
+
+        /* ==========================================================================
+           LÓGICA DEL CREADOR DE NUEVAS RUTAS (DRAWER LATERAL)
+           ========================================================================== */
+
+        function abrirCreadorRuta() {
+            document.getElementById('drawer-background').classList.remove('opacity-0', 'pointer-events-none');
+            document.getElementById('drawer-creador').classList.remove('translate-x-full');
+            paradasTemporales = [];
+            actualizarListaCreador();
+        }
+
+        function cerrarCreadorRuta() {
+            document.getElementById('drawer-background').classList.add('opacity-0', 'pointer-events-none');
+            document.getElementById('drawer-creador').classList.add('translate-x-full');
+        }
+
+        // Filtra y muestra sugerencias en tiempo real (Autocompletado de mapa simulado)
+        function filtrarSugerencias(query) {
+            const sugerenciasContenedor = document.getElementById('lista-sugerencias');
+            if (!query) {
+                sugerenciasContenedor.classList.add('hidden');
+                return;
+            }
+
+            const filtradas = baseDirecciones.filter(d => 
+                d.direccion.toLowerCase().includes(query.toLowerCase())
+            );
+
+            sugerenciasContenedor.innerHTML = '';
+            if (filtradas.length > 0) {
+                sugerenciasContenedor.classList.remove('hidden');
+                filtradas.forEach(item => {
+                    const btn = document.createElement('button');
+                    btn.className = "w-full text-left px-4 py-3 text-xs text-slate-700 hover:bg-slate-50 transition-colors flex items-center gap-2";
+                    btn.onclick = () => seleccionarSugerencia(item);
+                    btn.innerHTML = `<i data-lucide="map-pin" class="w-3.5 h-3.5 text-slate-400"></i> <span>${item.direccion}</span>`;
+                    sugerenciasContenedor.appendChild(btn);
+                });
+                lucide.createIcons();
+            } else {
+                sugerenciasContenedor.classList.add('hidden');
+            }
+        }
+
+        function seleccionarSugerencia(item) {
+            const nuevaParada = {
+                id: 'P-TEMP-' + Math.random().toString(36).substring(2, 9),
+                direccion: item.direccion,
+                lat: item.lat,
+                lng: item.lng
+            };
+
+            paradasTemporales.push(nuevaParada);
+            document.getElementById('buscador-direccion').value = '';
+            document.getElementById('lista-sugerencias').classList.add('hidden');
+            
+            actualizarListaCreador();
+        }
+
+        function removerParadaCreador(tempId) {
+            paradasTemporales = paradasTemporales.filter(p => p.id !== tempId);
+            actualizarListaCreador();
+        }
+
+        // Actualiza el listado visual de paradas dentro del configurador lateral
+        function actualizarListaCreador() {
+            const contenedor = document.getElementById('paradas-añadidas-lista');
+            const estadoVacio = document.getElementById('paradas-vacias-estado');
+            const btnOptimizar = document.getElementById('btn-optimizar');
+            const contador = document.getElementById('contador-paradas-creador');
+
+            // Limpiar lista preservando el nodo de estado vacío si es necesario
+            contenedor.innerHTML = '';
+            
+            if (paradasTemporales.length === 0) {
+                contenedor.appendChild(estadoVacio);
+                btnOptimizar.classList.add('hidden');
+                contador.innerText = "0 agregadas";
+                return;
+            }
+
+            contador.innerText = `${paradasTemporales.length} agregadas`;
+
+            // Mostrar botón para optimizar si hay más de 1 parada
+            if (paradasTemporales.length > 1) {
+                btnOptimizar.classList.remove('hidden');
+                btnOptimizar.classList.add('flex');
+            } else {
+                btnOptimizar.classList.add('hidden');
+            }
+
+            paradasTemporales.forEach((p, idx) => {
+                const item = document.createElement('div');
+                item.className = "flex items-center justify-between p-3 bg-slate-50 border border-slate-100 rounded-xl";
+                item.innerHTML = `
+                    <div class="flex items-center gap-2 min-w-0">
+                        <span class="w-5 h-5 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0">${idx + 1}</span>
+                        <p class="text-xs text-slate-700 truncate font-medium">${p.direccion}</p>
+                    </div>
+                    <button onclick="removerParadaCreador('${p.id}')" class="p-1 hover:bg-red-50 text-slate-400 hover:text-red-500 rounded transition-all">
+                        <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                    </button>
+                `;
+                contenedor.appendChild(item);
+            });
+            lucide.createIcons();
+        }
+
+        // Ejecuta el Caso de Uso de Optimización Inteligente
+        function optimizarRutaCreador() {
+            const btn = document.getElementById('btn-optimizar');
+            const texto = document.getElementById('texto-btn-optimizar');
+            
+            // Simular carga con animación de la IA optimizando
+            btn.disabled = true;
+            texto.innerText = "Calculando Ruta Óptima...";
+            btn.classList.add('opacity-75', 'animate-pulse');
+
+            setTimeout(() => {
+                // Llamamos a nuestro caso de uso limpio del Dominio
+                paradasTemporales = optimizarRutaUseCase.ejecutar(paradasTemporales);
+                
+                // Restablecer botón
+                btn.disabled = false;
+                texto.innerText = "¡Ruta Optimizado con Éxito! ✓";
+                btn.classList.remove('animate-pulse');
+                btn.classList.replace('bg-amber-500', 'bg-emerald-600');
+
+                actualizarListaCreador();
+
+                setTimeout(() => {
+                    btn.classList.replace('bg-emerald-600', 'bg-amber-500');
+                    texto.innerText = "Optimizar Orden (Recomendado IA)";
+                }, 2000);
+
+            }, 1200);
+        }
+
+        // Registra y guarda la nueva ruta para visualizarla en el Dashboard
+        function guardarRuta() {
+            if (paradasTemporales.length === 0) {
+                alert("Debes agregar al menos una parada para trazar la ruta");
+                return;
+            }
+
+            const nombre = document.getElementById('input-ruta-nombre').value || 'Nueva Ruta';
+            const repartidor = document.getElementById('input-ruta-repartidor').value;
+            const nuevoId = 'RUT-' + Math.random().toString(36).substring(2, 5).toUpperCase();
+
+            const rutaDTO = {
+                id: nuevoId,
+                nombre: nombre,
+                repartidor: repartidor,
+                paradas: paradasTemporales
+            };
+
+            // Ejecutamos el caso de uso
+            registrarRutaUseCase.ejecutar(rutaDTO);
+
+            // Cambiamos el dashboard a la nueva ruta
+            rutaSeleccionadaId = nuevoId;
+            cargarDashboard();
+            cerrarCreadorRuta();
+        }
+
+    </script>
 </body>
 </html>

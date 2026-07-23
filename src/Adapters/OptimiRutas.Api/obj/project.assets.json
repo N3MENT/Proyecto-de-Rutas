@@ -486,19 +486,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\diego\\.nuget\\packages\\": {}
+    "C:\\Users\\sitiouno\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\diego\\OneDrive\\Documentos\\Proyecto-de-Rutas\\src\\Adapters\\OptimiRutas.Api\\OptimiRutas.Api.csproj",
+      "projectUniqueName": "C:\\Users\\sitiouno\\Downloads\\Proyecto-de-Rutas\\src\\Adapters\\OptimiRutas.Api\\OptimiRutas.Api.csproj",
       "projectName": "OptimiRutas.Api",
-      "projectPath": "C:\\Users\\diego\\OneDrive\\Documentos\\Proyecto-de-Rutas\\src\\Adapters\\OptimiRutas.Api\\OptimiRutas.Api.csproj",
-      "packagesPath": "C:\\Users\\diego\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\diego\\OneDrive\\Documentos\\Proyecto-de-Rutas\\src\\Adapters\\OptimiRutas.Api\\obj\\",
+      "projectPath": "C:\\Users\\sitiouno\\Downloads\\Proyecto-de-Rutas\\src\\Adapters\\OptimiRutas.Api\\OptimiRutas.Api.csproj",
+      "packagesPath": "C:\\Users\\sitiouno\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\sitiouno\\Downloads\\Proyecto-de-Rutas\\src\\Adapters\\OptimiRutas.Api\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\diego\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\sitiouno\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net10.0"
@@ -511,11 +511,11 @@
           "framework": "net10.0",
           "targetAlias": "net10.0",
           "projectReferences": {
-            "C:\\Users\\diego\\OneDrive\\Documentos\\Proyecto-de-Rutas\\src\\Adapters\\OptimiRutas.Infrastructure\\OptimiRutas.Infrastructure.csproj": {
-              "projectPath": "C:\\Users\\diego\\OneDrive\\Documentos\\Proyecto-de-Rutas\\src\\Adapters\\OptimiRutas.Infrastructure\\OptimiRutas.Infrastructure.csproj"
+            "C:\\Users\\sitiouno\\Downloads\\Proyecto-de-Rutas\\src\\Adapters\\OptimiRutas.Infrastructure\\OptimiRutas.Infrastructure.csproj": {
+              "projectPath": "C:\\Users\\sitiouno\\Downloads\\Proyecto-de-Rutas\\src\\Adapters\\OptimiRutas.Infrastructure\\OptimiRutas.Infrastructure.csproj"
             },
-            "C:\\Users\\diego\\OneDrive\\Documentos\\Proyecto-de-Rutas\\src\\Core\\OptimiRutas.Application\\OptimiRutas.Application.csproj": {
-              "projectPath": "C:\\Users\\diego\\OneDrive\\Documentos\\Proyecto-de-Rutas\\src\\Core\\OptimiRutas.Application\\OptimiRutas.Application.csproj"
+            "C:\\Users\\sitiouno\\Downloads\\Proyecto-de-Rutas\\src\\Core\\OptimiRutas.Application\\OptimiRutas.Application.csproj": {
+              "projectPath": "C:\\Users\\sitiouno\\Downloads\\Proyecto-de-Rutas\\src\\Core\\OptimiRutas.Application\\OptimiRutas.Application.csproj"
             }
           }
         }
@@ -561,7 +561,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Users\\diego\\AppData\\Local\\Microsoft\\dotnet\\sdk\\10.0.302/PortableRuntimeIdentifierGraph.json",
+        "runtimeIdentifierGraphPath": "C:\\Users\\sitiouno\\AppData\\Local\\Microsoft\\dotnet\\sdk\\10.0.302/PortableRuntimeIdentifierGraph.json",
         "packagesToPrune": {
           "Microsoft.AspNetCore": "(,10.0.32767]",
           "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",
