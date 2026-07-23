@@ -16,6 +16,7 @@ cd "c:/Users/abrah/OneDrive/Desktop/PROYECTO RUTAS"
 dotnet build
 cd src/Adapters/OptimiRutas.Api
 dotnet run
+o en su caso abrir el archivo ejecutar-servidor.bat y si tiene instalado puede abrir ejecutar-servidor.sh  ambos funcionan 
 ```
 
 La API se expondrá por defecto en `https://localhost:7138` o `http://localhost:5188` según la configuración del proyecto.
