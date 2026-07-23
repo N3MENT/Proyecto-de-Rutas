@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "4XbI+kxeGJs=",
+  "dgSpecHash": "VLz+uS8aLrs=",
   "success": true,
-  "projectFilePath": "C:\\Users\\sitiouno\\Downloads\\Proyecto-de-Rutas\\src\\Adapters\\OptimiRutas.Api\\OptimiRutas.Api.csproj",
+  "projectFilePath": "C:\\Users\\sitiouno\\Downloads\\Proyecto-de-Rutas-main\\Proyecto-de-Rutas-main\\src\\Adapters\\OptimiRutas.Api\\OptimiRutas.Api.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\sitiouno\\.nuget\\packages\\microsoft.extensions.apidescription.server\\6.0.5\\microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
     "C:\\Users\\sitiouno\\.nuget\\packages\\microsoft.openapi\\1.6.22\\microsoft.openapi.1.6.22.nupkg.sha512",

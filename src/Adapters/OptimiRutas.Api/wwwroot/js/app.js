@@ -27,7 +27,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     initUI(user);
-    initMap();
+
+    try {
+        initMap();
+    } catch (e) {
+        console.error('Error initializing map:', e);
+        document.getElementById('map').innerHTML =
+            '<div style="display:flex;align-items:center;justify-content:center;height:100%;background:#f1f3f4;color:#5f6368;font-size:14px;text-align:center;padding:20px;">No se pudo cargar el mapa.<br>Verifica tu conexión a internet.</div>';
+    }
+
     initEventListeners();
     initVehicleSelector();
     getUserLocation();
@@ -40,32 +48,34 @@ function getSession() {
 
 // ============== UI ==============
 function initUI(user) {
-    document.getElementById('userDisplay').textContent = user.nombre;
-    document.getElementById('menuUserName').textContent = user.nombre;
-    document.getElementById('menuUserEmail').textContent = user.email;
-    document.getElementById('menuUserIcon').textContent = user.nombre.charAt(0).toUpperCase();
+    const el = (id) => document.getElementById(id);
+    if (el('userDisplay')) el('userDisplay').textContent = user.nombre;
+    if (el('menuUserName')) el('menuUserName').textContent = user.nombre;
+    if (el('menuUserEmail')) el('menuUserEmail').textContent = user.email;
+    if (el('menuUserIcon')) el('menuUserIcon').textContent = user.nombre.charAt(0).toUpperCase();
 }
 
 function initEventListeners() {
-    document.getElementById('destinationInput').addEventListener('input', onSearchInput);
-    document.getElementById('clearSearch').addEventListener('click', clearDestination);
-    document.getElementById('destinationInput').addEventListener('keydown', (e) => {
+    const on = (id, evt, fn) => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener(evt, fn);
+    };
+
+    on('destinationInput', 'input', onSearchInput);
+    on('clearSearch', 'click', clearDestination);
+    on('destinationInput', 'keydown', (e) => {
         if (e.key === 'Enter') onSearchSubmit();
     });
-
-    document.getElementById('locateBtn').addEventListener('click', getUserLocation);
-
-    document.getElementById('menuBtn').addEventListener('click', toggleMenu);
-    document.getElementById('menuOverlay').addEventListener('click', toggleMenu);
-
-    document.getElementById('logoutBtn').addEventListener('click', () => {
+    on('locateBtn', 'click', getUserLocation);
+    on('menuBtn', 'click', toggleMenu);
+    on('menuOverlay', 'click', toggleMenu);
+    on('logoutBtn', 'click', () => {
         sessionStorage.removeItem(TOKEN_KEY);
         window.location.href = 'index.html';
     });
-
-    document.getElementById('closeRoutes').addEventListener('click', closeRoutePanel);
-    document.getElementById('cancelRoute').addEventListener('click', cancelRoute);
-    document.getElementById('startNavigation').addEventListener('click', startNavigation);
+    on('closeRoutes', 'click', closeRoutePanel);
+    on('cancelRoute', 'click', cancelRoute);
+    on('startNavigation', 'click', startNavigation);
 }
 
 function initVehicleSelector() {
@@ -85,16 +95,18 @@ function initVehicleSelector() {
 function toggleMenu() {
     document.getElementById('sideMenu').classList.toggle('hidden');
     document.getElementById('menuOverlay').classList.toggle('hidden');
-    // Recalcular tamaño del mapa tras mostrar/ocultar el menú
-    setTimeout(() => { try { if (map) map.invalidateSize(); } catch (e) {} }, 350);
 }
 
 // ============== MAPA ==============
 function initMap() {
+    if (typeof L === 'undefined') {
+        throw new Error('Leaflet not loaded');
+    }
+
     map = L.map('map', {
         zoomControl: false,
         attributionControl: false
-    }).setView([10.2506, -66.8837], 13);
+    }).setView([10.4806, -66.9036], 13);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19
@@ -110,11 +122,9 @@ function initMap() {
         userZoomed = true;
     });
 
-    // Algunos navegadores calculan mal el tamaño del contenedor si está dentro
-    // de un layout flexible al inicializarse. Forzamos una invalidación
-    // del tamaño después de un pequeño retardo y al redimensionar.
-    setTimeout(() => { try { map.invalidateSize(); } catch (e) {} }, 300);
-    window.addEventListener('resize', () => { try { if (map) map.invalidateSize(); } catch (e) {} });
+    setTimeout(() => {
+        map.invalidateSize();
+    }, 200);
 }
 
 async function detectCountry(lat, lng) {
@@ -132,56 +142,59 @@ async function detectCountry(lat, lng) {
 }
 
 function getUserLocation() {
-    document.getElementById('locationStatus').innerHTML = `
+    const statusEl = document.getElementById('locationStatus');
+    if (!statusEl) return;
+
+    statusEl.innerHTML = `
         <span class="pulse-dot"></span>
-        <span>Obteniendo ubicación...</span>
+        <span>Obteniendo ubicacion...</span>
     `;
 
     if (!navigator.geolocation) {
-        document.getElementById('locationStatus').innerHTML = `
-            <span>⚠️</span>
-            <span>Geolocalización no disponible</span>
+        statusEl.innerHTML = `
+            <span>!</span>
+            <span>Geolocalizacion no disponible</span>
         `;
-        setOrigin([10.2506, -66.8837]);
+        setOrigin([10.4806, -66.9036]);
         return;
     }
-
-    alert('OptimiRutas necesita acceder a tu ubicación para calcular rutas. Por favor, concede el permiso cuando el navegador lo solicite.');
 
     navigator.geolocation.getCurrentPosition(
         (pos) => {
             const coords = [pos.coords.latitude, pos.coords.longitude];
-            document.getElementById('locationStatus').innerHTML = `
+            statusEl.innerHTML = `
                 <span class="pulse-dot" style="background: #1e8e3e"></span>
-                <span>Ubicación obtenida</span>
+                <span>Ubicacion obtenida</span>
             `;
             setOrigin(coords);
             detectCountry(coords[0], coords[1]);
         },
         (err) => {
             console.warn('Geolocation error:', err.message);
-            document.getElementById('locationStatus').innerHTML = `
-                <span>⚠️</span>
-                <span>Usando ubicación aproximada</span>
+            statusEl.innerHTML = `
+                <span>!</span>
+                <span>Usando ubicacion aproximada</span>
             `;
-            setOrigin([10.2506, -66.8837]);
+            setOrigin([10.4806, -66.9036]);
         },
-        { enableHighAccuracy: true, timeout: 10000 }
+        { enableHighAccuracy: true, timeout: 5000 }
     );
 }
 
 function setOrigin(coords) {
     origin = { lat: coords[0], lng: coords[1] };
 
+    if (!map) return;
+
     if (userMarker) map.removeLayer(userMarker);
     const originIcon = L.divIcon({
         className: 'custom-marker',
-        html: `<div style="width:20px;height:20px;border-radius:50%;background:#1a73e8;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;"><div style="width:8px;height:8px;border-radius:50%;background:white;"></div></div>`,
+        html: '<div style="width:20px;height:20px;border-radius:50%;background:#1a73e8;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;"><div style="width:8px;height:8px;border-radius:50%;background:white;"></div></div>',
         iconSize: [20, 20],
         iconAnchor: [10, 10]
     });
     userMarker = L.marker(coords, { icon: originIcon, draggable: true }).addTo(map);
-    userMarker.bindPopup('<b>Tu ubicación</b>');
+    userMarker.bindPopup('<b>Tu ubicacion</b>');
     userMarker.on('dragend', function(e) {
         const pos = e.target.getLatLng();
         origin = { lat: pos.lat, lng: pos.lng };
@@ -197,10 +210,12 @@ function setOrigin(coords) {
 function setDestination(latlng) {
     destination = { lat: latlng.lat, lng: latlng.lng };
 
+    if (!map) return;
+
     if (destMarker) map.removeLayer(destMarker);
     const destIcon = L.divIcon({
         className: 'custom-marker',
-        html: `<div style="width:26px;height:26px;border-radius:50%;background:#d93025;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;"><svg width="12" height="12" viewBox="0 0 24 24" fill="white"><circle cx="12" cy="12" r="6"/></svg></div>`,
+        html: '<div style="width:26px;height:26px;border-radius:50%;background:#d93025;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;"><svg width="12" height="12" viewBox="0 0 24 24" fill="white"><circle cx="12" cy="12" r="6"/></svg></div>',
         iconSize: [26, 26],
         iconAnchor: [13, 13]
     });
@@ -232,7 +247,7 @@ function clearDestination() {
     clearRoutePolylines();
 }
 
-// ============== BÚSQUEDA (Nominatim) ==============
+// ============== BUSQUEDA (Nominatim) ==============
 let searchTimer = null;
 
 function onSearchInput() {
@@ -341,15 +356,15 @@ function showRouteOptions(options) {
 
     options.forEach((ruta, idx) => {
         const tiempo = ruta.minutosEstimados < 60 ? `${ruta.minutosEstimados} min` : `${Math.floor(ruta.minutosEstimados / 60)}h ${ruta.minutosEstimados % 60}m`;
-        const tags = ['Recomendada', 'Alternativa', 'Económica'];
+        const tags = ['Recomendada', 'Alternativa', 'Economica'];
         const card = document.createElement('div');
         card.className = `route-card ${idx === 0 ? 'selected' : ''}`;
         card.innerHTML = `
             <div class="route-card-name">${ruta.icono || ''} ${ruta.nombre}</div>
             <div class="route-card-details">
-                <span>🕐 ${tiempo}</span>
-                <span>📏 ${ruta.distanciaKm} km</span>
-                <span>📍 ${ruta.totalParadas} paradas</span>
+                <span>${tiempo}</span>
+                <span>${ruta.distanciaKm} km</span>
+                <span>${ruta.totalParadas} paradas</span>
             </div>
             <span class="route-card-tag">${tags[idx]}</span>
         `;
@@ -392,8 +407,6 @@ function cancelRoute() {
     }
 
     document.getElementById('startNavigation').textContent = 'Iniciar';
-
-    // Quitar todas las polilíneas del mapa y marcar que el usuario hizo zoom manual
     clearRoutePolylines();
     userZoomed = true;
 }
@@ -401,9 +414,7 @@ function cancelRoute() {
 function startNavigation() {
     if (!isNavigating) {
         isNavigating = true;
-        document.getElementById('startNavigation').textContent = '✓ Navegando';
-
-        // Al iniciar navegación, centrar en el usuario sin cambiar zoom
+        document.getElementById('startNavigation').textContent = 'Navegando';
         userZoomed = true;
         if (userMarker) {
             map.panTo(userMarker.getLatLng(), { animate: true, duration: 0.5 });
@@ -415,7 +426,6 @@ function startNavigation() {
                 if (userMarker) {
                     userMarker.setLatLng(coords);
                 }
-                // Solo mover la vista, nunca cambiar zoom
                 map.panTo(coords, { animate: true, duration: 1 });
             },
             () => {},
@@ -426,7 +436,7 @@ function startNavigation() {
     }
 }
 
-// ============== MAPA - POLILÍNEAS ==============
+// ============== MAPA - POLILINEAS ==============
 function clearRoutePolylines() {
     if (selectedRoutePolyline) {
         map.removeLayer(selectedRoutePolyline);
@@ -454,7 +464,6 @@ function showAllRoutesOnMap(options) {
         else alternativePolylines.push(polyline);
     });
 
-    // Solo ajustar vista si el usuario no ha hecho zoom manual
     if (!userZoomed) {
         const allBounds = L.latLngBounds([origin.lat, origin.lng], [destination.lat, destination.lng]);
         map.fitBounds(allBounds, { padding: [60, 60] });

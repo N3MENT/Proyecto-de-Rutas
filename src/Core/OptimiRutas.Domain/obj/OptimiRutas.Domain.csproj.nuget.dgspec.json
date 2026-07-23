@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\sitiouno\\Downloads\\Proyecto-de-Rutas\\src\\Core\\OptimiRutas.Domain\\OptimiRutas.Domain.csproj": {}
+    "C:\\Users\\sitiouno\\Downloads\\Proyecto-de-Rutas-main\\Proyecto-de-Rutas-main\\src\\Core\\OptimiRutas.Domain\\OptimiRutas.Domain.csproj": {}
   },
   "projects": {
-    "C:\\Users\\sitiouno\\Downloads\\Proyecto-de-Rutas\\src\\Core\\OptimiRutas.Domain\\OptimiRutas.Domain.csproj": {
+    "C:\\Users\\sitiouno\\Downloads\\Proyecto-de-Rutas-main\\Proyecto-de-Rutas-main\\src\\Core\\OptimiRutas.Domain\\OptimiRutas.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\sitiouno\\Downloads\\Proyecto-de-Rutas\\src\\Core\\OptimiRutas.Domain\\OptimiRutas.Domain.csproj",
+        "projectUniqueName": "C:\\Users\\sitiouno\\Downloads\\Proyecto-de-Rutas-main\\Proyecto-de-Rutas-main\\src\\Core\\OptimiRutas.Domain\\OptimiRutas.Domain.csproj",
         "projectName": "OptimiRutas.Domain",
-        "projectPath": "C:\\Users\\sitiouno\\Downloads\\Proyecto-de-Rutas\\src\\Core\\OptimiRutas.Domain\\OptimiRutas.Domain.csproj",
+        "projectPath": "C:\\Users\\sitiouno\\Downloads\\Proyecto-de-Rutas-main\\Proyecto-de-Rutas-main\\src\\Core\\OptimiRutas.Domain\\OptimiRutas.Domain.csproj",
         "packagesPath": "C:\\Users\\sitiouno\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\sitiouno\\Downloads\\Proyecto-de-Rutas\\src\\Core\\OptimiRutas.Domain\\obj\\",
+        "outputPath": "C:\\Users\\sitiouno\\Downloads\\Proyecto-de-Rutas-main\\Proyecto-de-Rutas-main\\src\\Core\\OptimiRutas.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\sitiouno\\AppData\\Roaming\\NuGet\\NuGet.Config"

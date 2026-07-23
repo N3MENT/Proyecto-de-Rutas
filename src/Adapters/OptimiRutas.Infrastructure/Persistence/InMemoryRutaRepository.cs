@@ -44,9 +44,9 @@ public class InMemoryRutaRepository : IRutaRepository
         var idPrueba = new RutaId(Guid.Parse("11111111-1111-1111-1111-111111111111"));
         var rutaPrueba = new Ruta(idPrueba, "Ruta Matutina Centro", "Carlos Gómez");
         
-        rutaPrueba.AgregarParada(new Direccion("Av. Principal 124 (Supermercado)", new Coordenada(150, 100)));
-        rutaPrueba.AgregarParada(new Direccion("Calle de la Paz 89 (Panadería)", new Coordenada(250, 400)));
-        rutaPrueba.AgregarParada(new Direccion("Plaza Central Edificio C", new Coordenada(380, 200)));
+        rutaPrueba.AgregarParada(new Direccion("Av. Francisco de Miranda 124 (Supermercado)", new Coordenada(10.4918, -66.8553)));
+        rutaPrueba.AgregarParada(new Direccion("Calle de la Paz 89 (Panadería)", new Coordenada(10.4863, -66.9029)));
+        rutaPrueba.AgregarParada(new Direccion("Plaza Venezuela Edificio C", new Coordenada(10.4924, -66.8834)));
 
         _rutas[idPrueba.Value] = rutaPrueba;
     }

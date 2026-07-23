@@ -9,19 +9,17 @@ using OptimiRutas.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Rate limiting - máximo 10 peticiones por minuto por IP
 builder.Services.AddRateLimiter(options =>
 {
     options.RejectionStatusCode = 429;
-    options.AddFixedWindowLimiter("fixed", limiterOptions =>
+    options.AddFixedWindowLimiter("api", limiterOptions =>
     {
-        limiterOptions.PermitLimit = 10;
+        limiterOptions.PermitLimit = 60;
         limiterOptions.Window = TimeSpan.FromMinutes(1);
         limiterOptions.QueueLimit = 0;
     });
 });
 
-// CORS restringido solo a dominios permitidos
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("PermitirTodo", policy =>
@@ -58,26 +56,21 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-// Rate limiting
-app.UseRateLimiter();
+app.UseCors("PermitirTodo");
+app.UseDefaultFiles();
+app.UseStaticFiles();
 
-// Headers de seguridad
 app.Use(async (context, next) =>
 {
     context.Response.Headers.Append("X-Content-Type-Options", "nosniff");
     context.Response.Headers.Append("X-Frame-Options", "DENY");
     context.Response.Headers.Append("X-XSS-Protection", "1; mode=block");
     context.Response.Headers.Append("Referrer-Policy", "strict-origin-when-cross-origin");
-    context.Response.Headers.Append("Content-Security-Policy", "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:;");
-    context.Response.Headers.Append("Permissions-Policy", "geolocation=(), camera=(), microphone=()");
+    context.Response.Headers.Append("Permissions-Policy", "geolocation=(self), camera=(), microphone=()");
     await next();
 });
 
-app.UseCors("PermitirTodo");
-
-app.UseDefaultFiles();
-app.UseStaticFiles();
-
+app.UseRateLimiter();
 app.UseAuthorization();
 app.MapControllers();
 

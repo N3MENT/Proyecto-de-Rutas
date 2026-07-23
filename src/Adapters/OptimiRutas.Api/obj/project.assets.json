@@ -491,11 +491,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\sitiouno\\Downloads\\Proyecto-de-Rutas\\src\\Adapters\\OptimiRutas.Api\\OptimiRutas.Api.csproj",
+      "projectUniqueName": "C:\\Users\\sitiouno\\Downloads\\Proyecto-de-Rutas-main\\Proyecto-de-Rutas-main\\src\\Adapters\\OptimiRutas.Api\\OptimiRutas.Api.csproj",
       "projectName": "OptimiRutas.Api",
-      "projectPath": "C:\\Users\\sitiouno\\Downloads\\Proyecto-de-Rutas\\src\\Adapters\\OptimiRutas.Api\\OptimiRutas.Api.csproj",
+      "projectPath": "C:\\Users\\sitiouno\\Downloads\\Proyecto-de-Rutas-main\\Proyecto-de-Rutas-main\\src\\Adapters\\OptimiRutas.Api\\OptimiRutas.Api.csproj",
       "packagesPath": "C:\\Users\\sitiouno\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\sitiouno\\Downloads\\Proyecto-de-Rutas\\src\\Adapters\\OptimiRutas.Api\\obj\\",
+      "outputPath": "C:\\Users\\sitiouno\\Downloads\\Proyecto-de-Rutas-main\\Proyecto-de-Rutas-main\\src\\Adapters\\OptimiRutas.Api\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\sitiouno\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -511,11 +511,11 @@
           "framework": "net10.0",
           "targetAlias": "net10.0",
           "projectReferences": {
-            "C:\\Users\\sitiouno\\Downloads\\Proyecto-de-Rutas\\src\\Adapters\\OptimiRutas.Infrastructure\\OptimiRutas.Infrastructure.csproj": {
-              "projectPath": "C:\\Users\\sitiouno\\Downloads\\Proyecto-de-Rutas\\src\\Adapters\\OptimiRutas.Infrastructure\\OptimiRutas.Infrastructure.csproj"
+            "C:\\Users\\sitiouno\\Downloads\\Proyecto-de-Rutas-main\\Proyecto-de-Rutas-main\\src\\Adapters\\OptimiRutas.Infrastructure\\OptimiRutas.Infrastructure.csproj": {
+              "projectPath": "C:\\Users\\sitiouno\\Downloads\\Proyecto-de-Rutas-main\\Proyecto-de-Rutas-main\\src\\Adapters\\OptimiRutas.Infrastructure\\OptimiRutas.Infrastructure.csproj"
             },
-            "C:\\Users\\sitiouno\\Downloads\\Proyecto-de-Rutas\\src\\Core\\OptimiRutas.Application\\OptimiRutas.Application.csproj": {
-              "projectPath": "C:\\Users\\sitiouno\\Downloads\\Proyecto-de-Rutas\\src\\Core\\OptimiRutas.Application\\OptimiRutas.Application.csproj"
+            "C:\\Users\\sitiouno\\Downloads\\Proyecto-de-Rutas-main\\Proyecto-de-Rutas-main\\src\\Core\\OptimiRutas.Application\\OptimiRutas.Application.csproj": {
+              "projectPath": "C:\\Users\\sitiouno\\Downloads\\Proyecto-de-Rutas-main\\Proyecto-de-Rutas-main\\src\\Core\\OptimiRutas.Application\\OptimiRutas.Application.csproj"
             }
           }
         }

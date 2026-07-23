@@ -1,7 +1,17 @@
 @echo off
 title OptimiRutas - Servidor (silencioso)
-set PATH=C:\Users\diego\AppData\Local\Microsoft\dotnet;%PATH%
-cd /d "C:\Users\diego\OneDrive\Documentos\Proyecto-de-Rutas"
+cd /d "%~dp0"
+
+where dotnet >nul 2>&1
+if %ERRORLEVEL% neq 0 (
+    echo [AVISO] .NET SDK no encontrado. Instalando automaticamente...
+    powershell -ExecutionPolicy Bypass -File "%~dp0instalar-dotnet.ps1"
+    if %ERRORLEVEL% neq 0 (
+        echo ERROR: No se pudo instalar .NET SDK. Verifica tu conexion a internet.
+        pause
+        exit /b 1
+    )
+)
 
 :: Inicia el servidor en una ventana minimizada
 start /min "" dotnet run --project src/Adapters/OptimiRutas.Api

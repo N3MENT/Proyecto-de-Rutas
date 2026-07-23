@@ -8,6 +8,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons para iconografía limpia -->
     <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Leaflet Mapa interactivo -->
+    <link rel="stylesheet" href="lib/leaflet/leaflet.css" />
+    <script src="lib/leaflet/leaflet.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
         body {
@@ -407,62 +410,21 @@
                 </div>
 
                 <!-- PANEL DERECHO: MAPA EN TIEMPO REAL (7 Columnas) -->
-                <div class="lg:col-span-7 h-[500px] lg:h-auto min-h-[450px] bg-slate-900 rounded-2xl border border-slate-800 shadow-lg relative overflow-hidden flex flex-col">
+                <div class="lg:col-span-7 h-[500px] lg:h-auto min-h-[450px] bg-slate-100 rounded-2xl border border-slate-200 shadow-lg relative overflow-hidden flex flex-col">
                     <!-- Barra superior de estado del mapa -->
-                    <div class="absolute top-4 left-4 z-10 bg-slate-900/95 backdrop-blur-md border border-slate-800 px-4 py-2.5 rounded-xl flex items-center gap-3 shadow-xl">
+                    <div class="absolute top-4 left-4 z-[1000] bg-white/95 backdrop-blur-md border border-slate-200 px-4 py-2.5 rounded-xl flex items-center gap-3 shadow-xl">
                         <span class="w-2.5 h-2.5 bg-emerald-500 rounded-full animate-ping"></span>
-                        <span class="text-xs font-semibold text-slate-200">Enlace con GPS activo</span>
+                        <span class="text-xs font-semibold text-slate-700">Mapa en vivo</span>
                     </div>
 
-                    <div class="absolute top-4 right-4 z-10 flex gap-2">
-                        <button onclick="reajustarMapa()" class="bg-slate-800 hover:bg-slate-700 text-white p-2.5 rounded-xl border border-slate-700 transition-colors shadow-lg">
+                    <div class="absolute top-4 right-4 z-[1000] flex gap-2">
+                        <button onclick="reajustarMapa()" class="bg-white hover:bg-slate-50 text-slate-700 p-2.5 rounded-xl border border-slate-200 transition-colors shadow-lg">
                             <i data-lucide="refresh-cw" class="w-4 h-4"></i>
                         </button>
                     </div>
 
-                    <!-- Lienzo del Mapa (Simulado con SVG Dinámico interactivo) -->
-                    <div class="flex-1 relative bg-[#0f172a] overflow-hidden flex items-center justify-center">
-                        <!-- Cuadrícula / Grid de fondo para simular mapa -->
-                        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:24px_24px]"></div>
-                        
-                        <!-- SVG para dibujar las calles, puntos y la línea de ruta -->
-                        <svg id="mapa-svg" class="w-full h-full absolute inset-0" viewBox="0 0 600 450">
-                            <!-- Calles dibujadas de fondo -->
-                            <line x1="50" y1="0" x2="50" y2="450" stroke="#334155" stroke-width="6" opacity="0.3" />
-                            <line x1="200" y1="0" x2="200" y2="450" stroke="#334155" stroke-width="8" opacity="0.3" />
-                            <line x1="400" y1="0" x2="400" y2="450" stroke="#334155" stroke-width="6" opacity="0.3" />
-                            <line x1="550" y1="0" x2="550" y2="450" stroke="#334155" stroke-width="6" opacity="0.3" />
-
-                            <line x1="0" y1="100" x2="600" y2="100" stroke="#334155" stroke-width="8" opacity="0.3" />
-                            <line x1="0" y1="250" x2="600" y2="250" stroke="#334155" stroke-width="6" opacity="0.3" />
-                            <line x1="0" y1="380" x2="600" y2="380" stroke="#334155" stroke-width="8" opacity="0.3" />
-
-                            <!-- Línea de trazado de ruta conectando los puntos -->
-                            <path id="ruta-trazado" d="" fill="none" stroke="#3b82f6" stroke-width="4" stroke-dasharray="8 4" stroke-linecap="round" class="transition-all duration-1000" />
-                            <path id="ruta-completada-trazado" d="" fill="none" stroke="#10b981" stroke-width="4" stroke-linecap="round" class="transition-all duration-1000" />
-
-                            <!-- Puntos de Parada (Inyectados con JS) -->
-                            <g id="svg-puntos-grupo"></g>
-
-                            <!-- Vehículo repartidor moviéndose de forma animada -->
-                            <g id="svg-vehiculo" class="transition-all duration-1000 ease-in-out" transform="translate(-100, -100)">
-                                <circle r="14" fill="#3b82f6" class="animate-pulse opacity-30" />
-                                <circle r="8" fill="#3b82f6" stroke="#ffffff" stroke-width="2" />
-                                <polygon points="-3,-4 5,0 -3,4" fill="#ffffff" transform="rotate(0)" id="vehiculo-flecha" />
-                            </g>
-                        </svg>
-
-                        <!-- Caja de información flotante del mapa -->
-                        <div id="map-tooltip" class="absolute bottom-6 left-6 right-6 bg-slate-950/90 border border-slate-800 p-4 rounded-xl backdrop-blur-md shadow-2xl transition-all duration-300 opacity-0 transform translate-y-2 pointer-events-none">
-                            <div class="flex items-start gap-3">
-                                <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 font-bold" id="tooltip-indice">1</div>
-                                <div class="flex-1">
-                                    <h5 class="text-xs font-bold text-slate-100" id="tooltip-titulo">Calle 10 con Av. 4</h5>
-                                    <p class="text-[10px] text-slate-400 mt-0.5" id="tooltip-info">Cliente: Juan Pérez • Entrega: Pendiente</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <!-- Lienzo del Mapa Leaflet Real -->
+                    <div id="mapa-leaflet" class="flex-1 w-full h-full min-h-[400px]"></div>
                 </div>
 
             </div>
@@ -481,7 +443,7 @@
                 </div>
                 <div>
                     <h3 class="text-lg font-bold text-slate-900">Configurador de Ruta</h3>
-                    <p class="text-xs text-slate-500">Agrega direcciones y optimiza el recorrido</p>
+                    <p class="text-xs text-slate-500">Agrega destinos y optimiza el recorrido</p>
                 </div>
             </div>
             <button onclick="cerrarCreadorRuta()" class="p-2 hover:bg-slate-100 rounded-lg transition-colors text-slate-400 hover:text-slate-600">
@@ -511,7 +473,7 @@
 
             <!-- Paso 2: Buscador y agregación de direcciones -->
             <div>
-                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">2. Añadir Paradas</label>
+                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">2. Añadir Destinos</label>
                 <div class="space-y-3">
                     <div>
                         <label class="text-[11px] text-slate-400">Escribe una Dirección de tu localidad</label>
@@ -525,13 +487,17 @@
                             <!-- Inyectados por JS -->
                         </div>
                     </div>
+                    <div class="flex items-center gap-2 p-2.5 bg-blue-50 rounded-lg border border-blue-100">
+                        <i data-lucide="mouse-pointer-click" class="w-4 h-4 text-blue-500 shrink-0"></i>
+                        <p class="text-[11px] text-blue-600 font-medium">También puedes hacer clic en el mapa para agregar un destino</p>
+                    </div>
                 </div>
             </div>
 
             <!-- Paso 3: Lista de paradas agregadas para esta ruta -->
             <div>
                 <div class="flex items-center justify-between mb-2">
-                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">3. Paradas de la Ruta</label>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">3. Destinos de la Ruta</label>
                     <span class="text-xs text-slate-400" id="contador-paradas-creador">0 agregadas</span>
                 </div>
 
@@ -540,7 +506,7 @@
                     <!-- Estado vacío -->
                     <div id="paradas-vacias-estado" class="text-center py-8 border-2 border-dashed border-slate-100 rounded-xl text-slate-400">
                         <i data-lucide="map-pin" class="w-8 h-8 mx-auto mb-2 opacity-50"></i>
-                        <p class="text-xs">Aún no has agregado paradas para esta ruta.</p>
+                        <p class="text-xs">Aún no has agregado destinos para esta ruta.</p>
                     </div>
                 </div>
             </div>
@@ -561,169 +527,438 @@
     </div>
 
 
-    <!-- SCRIPT DE COMPORTAMIENTO INTERACTIVO BAJO PRINCIPIOS HEXAGONALES -->
+    <!-- SCRIPT DE COMPORTAMIENTO INTERACTIVO -->
     <script>
-        /* ==========================================================================
-           ARQUITECTURA DE DOMINIO, CASOS DE USO Y ADAPTADORES (DDD & HEXAGONAL)
-           ========================================================================== */
+        // --- ESTADO GLOBAL ---
+        const API_BASE = '';
+        let mapa = null; // Leaflet map instance
+        let rutaSeleccionada = null; // Ruta actualmente visible
+        let rutasData = []; // Todas las rutas del backend
+        let marcadores = []; // Marcadores Leaflet en el mapa
+        let polylineRuta = null; // Polyline de la ruta actual
+        let polylinesRuta = []; // Múltiples polylines para la ruta
+        let polylinesPreview = []; // Polylines de vista previa en drawer
+        let paradasTemporales = []; // Para el creador de rutas
+        let marcadorUsuario = null; // Marcador de ubicación del usuario
+        let modoAgregarDestino = false; // Modo para agregar destino desde el mapa
 
-        // --- CAPA DE DOMINIO (Modelos puros de Negocio sin dependencias) ---
-        class RutaNegocio {
-            constructor(id, nombre, repartidor, paradas = [], estado = 'pendiente') {
-                this.id = id;
-                this.nombre = nombre;
-                this.repartidor = repartidor;
-                this.paradas = paradas; // Array de ParadaNegocio
-                this.estado = estado;
-            }
+        // Coordenada origen del negocio (de appsettings.json)
+        const ORIGEN_NEGOCIO = { lat: 10.4806, lng: -66.9036 };
 
-            calcularProgreso() {
-                if (this.paradas.length === 0) return 0;
-                const completadas = this.paradas.filter(p => p.completada).length;
-                return Math.round((completadas / this.paradas.length) * 100);
-            }
-
-            obtenerEstadisticas() {
-                const total = this.paradas.length;
-                const completadas = this.paradas.filter(p => p.completada).length;
-                const minutosEstimados = total * 15; // 15 minutos por entrega promedio
-                const ahorro = total * 6.10; // Ahorro ficticio por kilómetro optimizado
-                return { total, completadas, minutosEstimados, ahorro };
-            }
-        }
-
-        class ParadaNegocio {
-            constructor(id, direccion, lat, lng, completada = false, orden = 0) {
-                this.id = id;
-                this.direccion = direccion;
-                this.lat = lat;
-                this.lng = lng;
-                this.completada = completada;
-                this.orden = orden;
-            }
-        }
-
-        // --- PUERTOS (Interfaces conceptuales en JS usando clases base) ---
-        class IRutaRepository {
-            guardar(ruta) { throw new Error("Método no implementado"); }
-            obtenerTodas() { throw new Error("Método no implementado"); }
-            actualizarParada(rutaId, paradaId, completada) { throw new Error("Método no implementado"); }
-        }
-
-        // --- CAPA DE APLICACIÓN (Casos de Uso del negocio) ---
-        class RegistrarRutaUseCase {
-            constructor(rutaRepository) {
-                this.rutaRepository = rutaRepository;
-            }
-            ejecutar(rutaDTO) {
-                const paradas = rutaDTO.paradas.map((p, index) => 
-                    new ParadaNegocio(p.id, p.direccion, p.lat, p.lng, false, index)
-                );
-                const nuevaRuta = new RutaNegocio(
-                    rutaDTO.id,
-                    rutaDTO.nombre,
-                    rutaDTO.repartidor,
-                    paradas,
-                    'pendiente'
-                );
-                this.rutaRepository.guardar(nuevaRuta);
-                return nuevaRuta;
-            }
-        }
-
-        class OptimizarRutaUseCase {
-            // Algoritmo de optimización simulado (Vecino más cercano)
-            ejecutar(paradas) {
-                if (paradas.length <= 1) return paradas;
-                
-                // Punto de partida del Negocio (Panadería Central) en el centro (300, 225)
-                const inicio = { lat: 225, lng: 300 };
-                let desordenadas = [...paradas];
-                let ordenadas = [];
-                let actual = inicio;
-
-                while (desordenadas.length > 0) {
-                    let masCercanoIndice = 0;
-                    let distanciaMinima = Infinity;
-
-                    for (let i = 0; i < desordenadas.length; i++) {
-                        const dist = Math.hypot(desordenadas[i].lat - actual.lat, desordenadas[i].lng - actual.lng);
-                        if (dist < distanciaMinima) {
-                            distanciaMinima = dist;
-                            masCercanoIndice = i;
-                        }
-                    }
-
-                    actual = desordenadas[masCercanoIndice];
-                    ordenadas.push(desordenadas.splice(masCercanoIndice, 1)[0]);
-                }
-
-                // Reasignar orden numérico
-                ordenadas.forEach((p, idx) => p.orden = idx);
-                return ordenadas;
-            }
-        }
-
-        // --- INFRAESTRUCTURA (Adaptadores: Base de datos en memoria y UI Controller) ---
-        class EnMemoriaRutaRepository extends IRutaRepository {
-            constructor() {
-                super();
-                // Data semilla inicial
-                this.rutas = [
-                    new RutaNegocio("RUT-01", "Ruta de la Mañana", "Carlos Gómez", [
-                        new ParadaNegocio("P-1", "Av. Principal 124 (Supermercado Mercadona)", 150, 100, true, 0),
-                        new ParadaNegocio("P-2", "Calle de la Paz 89 (Restaurante El Lago)", 250, 400, false, 1),
-                        new ParadaNegocio("P-3", "Plaza Central Edificio C, Local 4", 380, 200, false, 2)
-                    ])
-                ];
-            }
-
-            guardar(ruta) {
-                this.rutas.push(ruta);
-            }
-
-            obtenerTodas() {
-                return this.rutas;
-            }
-
-            obtenerPorId(id) {
-                return this.rutas.find(r => r.id === id);
-            }
-        }
-
-        /* ==========================================================================
-           CONTROLADOR DE UI & INTERACTIVIDAD DE LA VISTA (Frontend Adapter)
-           ========================================================================== */
-
-        // Instancias de la Arquitectura
-        const repo = new EnMemoriaRutaRepository();
-        const registrarRutaUseCase = new RegistrarRutaUseCase(repo);
-        const optimizarRutaUseCase = new OptimizarRutaUseCase();
-
-        // Estado local de la UI
-        let paradasTemporales = []; // Almacena paradas mientras se crea una ruta
-        let rutaSeleccionadaId = "RUT-01"; // Ruta actualmente visible en el dashboard
-        let vehiculoPosicionIndex = 0;
-
-        // Base de Datos de Direcciones Sugeridas (Para el autocompletado interactivo)
+        // Direcciones sugeridas para el autocompletado del creador
         const baseDirecciones = [
-            { direccion: "Av. Principal 124 (Supermercado Mercadona)", lat: 150, lng: 100 },
-            { direccion: "Calle de la Paz 89 (Restaurante El Lago)", lat: 250, lng: 400 },
-            { direccion: "Plaza Central Edificio C, Local 4", lat: 380, lng: 200 },
-            { direccion: "Av. Bolívar Cruce con Calle Flores", lat: 100, lng: 450 },
-            { direccion: "Zona Industrial Galpón N-15", lat: 380, lng: 500 },
-            { direccion: "Residencias Las Flores, Torre B Apto 3", lat: 280, lng: 150 },
-            { direccion: "Calle Los Pinos Nro 42 (Cerca del Parque)", lat: 80, lng: 250 }
+            { direccion: "Av. Principal 124 (Supermercado Mercadona)", lat: 10.4850, lng: -66.9010 },
+            { direccion: "Calle de la Paz 89 (Restaurante El Lago)", lat: 10.4780, lng: -66.8980 },
+            { direccion: "Plaza Central Edificio C, Local 4", lat: 10.4820, lng: -66.9070 },
+            { direccion: "Av. Bolívar Cruce con Calle Flores", lat: 10.4795, lng: -66.9050 },
+            { direccion: "Zona Industrial Galpón N-15", lat: 10.4870, lng: -66.8990 },
+            { direccion: "Residencias Las Flores, Torre B Apto 3", lat: 10.4835, lng: -66.9025 },
+            { direccion: "Calle Los Pinos Nro 42 (Cerca del Parque)", lat: 10.4810, lng: -66.9060 }
         ];
 
-        // Al iniciar la página
+        // --- INICIALIZACIÓN ---
         window.addEventListener('DOMContentLoaded', () => {
             lucide.createIcons();
-            cargarDashboard();
-            inicializarVehiculo();
+            initLeafletMap();
+            cargarRutasDesdeBackend();
         });
 
-        // NAVEGACIÓN ENTRE VISTAS (SPA Interno)
+        // --- MAPA LEAFLET ---
+        function initLeafletMap() {
+            if (typeof L === 'undefined') {
+                console.error('Leaflet no cargado');
+                document.getElementById('mapa-leaflet').innerHTML =
+                    '<div class="flex items-center justify-center h-full bg-slate-200 text-slate-500 text-sm">Error: Leaflet no disponible</div>';
+                return;
+            }
+
+            mapa = L.map('mapa-leaflet', {
+                zoomControl: false,
+                attributionControl: false
+            }).setView([ORIGEN_NEGOCIO.lat, ORIGEN_NEGOCIO.lng], 14);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19
+            }).addTo(mapa);
+
+            L.control.zoom({ position: 'bottomright' }).addTo(mapa);
+
+            // Marcador del origen (negocio)
+            const iconoOrigen = L.divIcon({
+                className: 'custom-marker',
+                html: '<div style="width:24px;height:24px;border-radius:50%;background:#1e293b;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;"><svg width="12" height="12" viewBox="0 0 24 24" fill="white"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg></div>',
+                iconSize: [24, 24],
+                iconAnchor: [12, 12]
+            });
+            L.marker([ORIGEN_NEGOCIO.lat, ORIGEN_NEGOCIO.lng], { icon: iconoOrigen })
+                .addTo(mapa)
+                .bindPopup('<b>Base del Negocio</b><br>Origen de rutas');
+
+            setTimeout(() => mapa.invalidateSize(), 200);
+
+            // Click en el mapa para agregar destino (modo creador)
+            mapa.on('click', function(e) {
+                if (modoAgregarDestino) {
+                    agregarDestinoDesdeMapa(e.latlng.lat, e.latlng.lng);
+                }
+            });
+        }
+
+        // --- GEOLOCALIZACIÓN ---
+        function obtenerUbicacionUsuario() {
+            return new Promise((resolve, reject) => {
+                if (!navigator.geolocation) {
+                    reject(new Error('Geolocalización no disponible'));
+                    return;
+                }
+                navigator.geolocation.getCurrentPosition(
+                    (pos) => resolve({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
+                    (err) => reject(err),
+                    { enableHighAccuracy: true, timeout: 10000 }
+                );
+            });
+        }
+
+        async function mostrarUbicacionEnMapa() {
+            try {
+                const coords = await obtenerUbicacionUsuario();
+                
+                if (marcadorUsuario) {
+                    mapa.removeLayer(marcadorUsuario);
+                }
+
+                const iconoUsuario = L.divIcon({
+                    className: 'custom-marker',
+                    html: '<div style="width:20px;height:20px;border-radius:50%;background:#1a73e8;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;"><div style="width:8px;height:8px;border-radius:50%;background:white;"></div></div>',
+                    iconSize: [20, 20],
+                    iconAnchor: [10, 10]
+                });
+
+                marcadorUsuario = L.marker([coords.lat, coords.lng], { icon: iconoUsuario })
+                    .addTo(mapa)
+                    .bindPopup('<b>Tu ubicación</b>')
+                    .openPopup();
+
+                mapa.setView([coords.lat, coords.lng], 15, { animate: true });
+                
+                return coords;
+            } catch (err) {
+                console.warn('No se pudo obtener ubicación:', err.message);
+                return null;
+            }
+        }
+
+        function agregarDestinoDesdeMapa(lat, lng) {
+            const nuevaParada = {
+                id: 'P-MAP-' + Math.random().toString(36).substring(2, 9),
+                direccion: `Destino (${lat.toFixed(4)}, ${lng.toFixed(4)})`,
+                lat: lat,
+                lng: lng
+            };
+            paradasTemporales.push(nuevaParada);
+            actualizarListaCreador();
+            dibujarRutaPreview();
+        }
+
+        // --- VISTA PREVIA DE RUTA EN EL DRAWER ---
+
+        async function dibujarRutaPreview() {
+            if (!mapa || paradasTemporales.length === 0) {
+                // Limpiar polylines preview
+                polylinesPreview.forEach(p => mapa.removeLayer(p));
+                polylinesPreview = [];
+                return;
+            }
+
+            // Limpiar polylines anteriores
+            polylinesPreview.forEach(p => mapa.removeLayer(p));
+            polylinesPreview = [];
+
+            const waypoints = [
+                `${ORIGEN_NEGOCIO.lng},${ORIGEN_NEGOCIO.lat}`,
+                ...paradasTemporales.map(p => `${p.lng},${p.lat}`)
+            ];
+
+            const osrmUrl = `https://router.project-osrm.org/route/v1/driving/${waypoints.join(';')}?overview=full&geometries=geojson`;
+
+            try {
+                const res = await fetch(osrmUrl);
+                if (!res.ok) throw new Error('OSRM error');
+                const data = await res.json();
+
+                if (data.code === 'Ok' && data.routes && data.routes.length > 0) {
+                    const route = data.routes[0];
+                    const coords = route.geometry.coordinates;
+                    const latLngs = coords.map(c => [c[1], c[0]]);
+
+                    const previewLine = L.polyline(latLngs, {
+                        color: '#f59e0b',
+                        weight: 4,
+                        opacity: 0.85,
+                        dashArray: '10, 6'
+                    }).addTo(mapa);
+                    polylinesPreview.push(previewLine);
+
+                    mapa.fitBounds(previewLine.getBounds(), { padding: [50, 50] });
+                    return;
+                }
+            } catch (err) {
+                console.warn('OSRM preview fallback:', err);
+            }
+
+            // Fallback: línea directa
+            const coordenadas = [[ORIGEN_NEGOCIO.lat, ORIGEN_NEGOCIO.lng], ...paradasTemporales.map(p => [p.lat, p.lng])];
+            const previewLine = L.polyline(coordenadas, {
+                color: '#f59e0b',
+                weight: 4,
+                opacity: 0.8,
+                dashArray: '10, 6'
+            }).addTo(mapa);
+            polylinesPreview.push(previewLine);
+
+            if (coordenadas.length > 0) {
+                mapa.fitBounds(previewLine.getBounds(), { padding: [50, 50] });
+            }
+        }
+
+        function reajustarMapa() {
+            if (mapa) {
+                mapa.invalidateSize();
+                if (rutaSeleccionada) {
+                    dibujarRutaEnMapa(rutaSeleccionada);
+                }
+            }
+        }
+
+        // --- CARGA DE DATOS DESDE BACKEND ---
+        async function cargarRutasDesdeBackend() {
+            try {
+                const res = await fetch(`${API_BASE}/api/rutas`);
+                if (!res.ok) throw new Error('Error al obtener rutas');
+                rutasData = await res.json();
+                
+                if (rutasData.length > 0) {
+                    rutaSeleccionada = rutasData[0];
+                    cargarDashboard();
+                } else {
+                    // Sin rutas del backend, mostrar estado vacío
+                    mostrarEstadoVacio();
+                }
+            } catch (err) {
+                console.error('Error cargando rutas:', err);
+                mostrarEstadoVacio();
+            }
+        }
+
+        function mostrarEstadoVacio() {
+            document.getElementById('kpi-rutas-totales').innerText = '0';
+            document.getElementById('kpi-entregas').innerText = '0/0';
+            document.getElementById('kpi-tiempo').innerText = '0 min';
+            document.getElementById('kpi-ahorro').innerText = '$0.00';
+            document.getElementById('progreso-entregas-bar').style.width = '0%';
+            document.getElementById('conteo-paradas-badge').innerText = '0 Paradas';
+            document.getElementById('lista-paradas-dashboard').innerHTML = `
+                <div class="text-center py-12 text-slate-400">
+                    <i data-lucide="map-pin" class="w-10 h-10 mx-auto mb-3 opacity-50"></i>
+                    <p class="text-sm font-medium">No hay rutas creadas</p>
+                    <p class="text-xs mt-1">Crea tu primera ruta para comenzar</p>
+                </div>
+            `;
+            lucide.createIcons();
+        }
+
+        // --- CARGA DEL DASHBOARD ---
+        function cargarDashboard() {
+            if (!rutaSeleccionada) return;
+
+            const stats = rutaSeleccionada.estadisticas;
+            document.getElementById('kpi-rutas-totales').innerText = rutasData.length;
+            document.getElementById('kpi-entregas').innerText = `${stats.completadas}/${stats.totalParadas}`;
+            document.getElementById('kpi-tiempo').innerText = `${stats.minutosEstimados} min`;
+            document.getElementById('kpi-ahorro').innerText = `$${stats.ahorroEstimado.toFixed(2)}`;
+
+            const porcentaje = rutaSeleccionada.progresoPorcentaje;
+            document.getElementById('progreso-entregas-bar').style.width = `${porcentaje}%`;
+
+            document.getElementById('conteo-paradas-badge').innerText = `${stats.totalParadas} Paradas`;
+
+            renderizarListaParadas();
+            dibujarRutaEnMapa(rutaSeleccionada);
+        }
+
+        function renderizarListaParadas() {
+            const contenedor = document.getElementById('lista-paradas-dashboard');
+            contenedor.innerHTML = '';
+
+            if (!rutaSeleccionada || !rutaSeleccionada.paradas) return;
+
+            rutaSeleccionada.paradas.sort((a, b) => a.orden - b.orden).forEach((parada, i) => {
+                const div = document.createElement('div');
+                div.className = `route-card-transition p-4 bg-white border ${parada.completada ? 'border-emerald-100 bg-emerald-50/20' : 'border-slate-100'} rounded-xl shadow-sm flex items-start gap-4 cursor-pointer`;
+                div.onclick = () => enfocarParada(parada);
+
+                const statusColor = parada.completada
+                    ? 'bg-emerald-500 text-white'
+                    : 'bg-blue-100 text-blue-700';
+
+                div.innerHTML = `
+                    <div class="w-8 h-8 rounded-lg ${statusColor} flex items-center justify-center font-bold text-sm shrink-0">
+                        ${parada.completada ? '✓' : i + 1}
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h4 class="font-bold text-sm text-slate-800 truncate">${parada.calle}</h4>
+                        <div class="flex items-center gap-2 mt-1">
+                            <span class="text-[10px] font-medium text-slate-400">Cliente Recibe</span>
+                            <span class="w-1.5 h-1.5 bg-slate-300 rounded-full"></span>
+                            <span class="text-[10px] text-slate-500">Orden: #${i + 1}</span>
+                        </div>
+                    </div>
+                    <button onclick="alternarEstadoParada('${parada.id}', event)" class="px-3 py-1.5 text-xs font-semibold rounded-lg border transition-all ${
+                        parada.completada
+                            ? 'border-emerald-200 text-emerald-700 hover:bg-emerald-50'
+                            : 'border-slate-200 text-slate-700 hover:bg-slate-50'
+                    }">
+                        ${parada.completada ? 'Completado' : 'Entregar'}
+                    </button>
+                `;
+                contenedor.appendChild(div);
+            });
+        }
+
+        // --- MAPA: DIBUJAR RUTA POR CALLES (OSRM) ---
+
+        async function dibujarRutaEnMapa(ruta) {
+            if (!mapa || !ruta) return;
+
+            // Limpiar marcadores y polylines anteriores
+            marcadores.forEach(m => mapa.removeLayer(m));
+            marcadores = [];
+            polylinesRuta.forEach(p => mapa.removeLayer(p));
+            polylinesRuta = [];
+            if (polylineRuta) {
+                mapa.removeLayer(polylineRuta);
+                polylineRuta = null;
+            }
+
+            if (!ruta.paradas || ruta.paradas.length === 0) return;
+
+            const puntos = ruta.paradas.sort((a, b) => a.orden - b.orden);
+
+            // Agregar marcador de origen (negocio)
+            const iconoOrigen = L.divIcon({
+                className: 'custom-marker',
+                html: '<div style="width:24px;height:24px;border-radius:50%;background:#1e293b;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;"><svg width="12" height="12" viewBox="0 0 24 24" fill="white"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg></div>',
+                iconSize: [24, 24],
+                iconAnchor: [12, 12]
+            });
+            const marcadorOrigen = L.marker([ORIGEN_NEGOCIO.lat, ORIGEN_NEGOCIO.lng], { icon: iconoOrigen })
+                .addTo(mapa)
+                .bindPopup('<b>Base del Negocio</b><br>Origen');
+            marcadores.push(marcadorOrigen);
+
+            // Agregar marcadores para cada parada
+            puntos.forEach((parada, i) => {
+                const color = parada.completada ? '#10b981' : '#3b82f6';
+                const icono = L.divIcon({
+                    className: 'custom-marker',
+                    html: `<div style="width:28px;height:28px;border-radius:50%;background:${color};border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;"><span style="color:white;font-size:11px;font-weight:bold;">${i + 1}</span></div>`,
+                    iconSize: [28, 28],
+                    iconAnchor: [14, 14]
+                });
+
+                const marcador = L.marker([parada.lat, parada.lng], { icon })
+                    .addTo(mapa)
+                    .bindPopup(`<b>Destino ${i + 1}</b><br>${parada.calle}<br>${parada.completada ? '<span style="color:green">✓ Completado</span>' : '<span style="color:orange">Pendiente</span>'}`);
+
+                marcadores.push(marcador);
+            });
+
+            // Construir waypoints para OSRM: origen + todas las paradas en orden
+            const waypoints = [
+                `${ORIGEN_NEGOCIO.lng},${ORIGEN_NEGOCIO.lat}`,
+                ...puntos.map(p => `${p.lng},${p.lat}`)
+            ];
+
+            const osrmUrl = `https://router.project-osrm.org/route/v1/driving/${waypoints.join(';')}?overview=full&geometries=geojson&steps=true`;
+
+            try {
+                const res = await fetch(osrmUrl);
+                if (!res.ok) throw new Error('OSRM error');
+                const data = await res.json();
+
+                if (data.code === 'Ok' && data.routes && data.routes.length > 0) {
+                    const route = data.routes[0];
+                    const coords = route.geometry.coordinates;
+
+                    // Convertir de [lng, lat] a [lat, lng] para Leaflet
+                    const latLngs = coords.map(c => [c[1], c[0]]);
+
+                    // Dibujar la ruta por calles
+                    polylineRuta = L.polyline(latLngs, {
+                        color: '#3b82f6',
+                        weight: 5,
+                        opacity: 0.85
+                    }).addTo(mapa);
+                    polylinesRuta.push(polylineRuta);
+
+                    // Ajustar vista
+                    mapa.fitBounds(polylineRuta.getBounds(), { padding: [50, 50] });
+                    return;
+                }
+            } catch (err) {
+                console.warn('OSRM fallback a línea directa:', err);
+            }
+
+            // Fallback: línea directa si OSRM falla
+            const coordenadas = [[ORIGEN_NEGOCIO.lat, ORIGEN_NEGOCIO.lng], ...puntos.map(p => [p.lat, p.lng])];
+            polylineRuta = L.polyline(coordenadas, {
+                color: '#3b82f6',
+                weight: 4,
+                opacity: 0.8,
+                dashArray: '8, 8'
+            }).addTo(mapa);
+            polylinesRuta.push(polylineRuta);
+
+            if (coordenadas.length > 0) {
+                mapa.fitBounds(polylineRuta.getBounds(), { padding: [50, 50] });
+            }
+        }
+
+        function enfocarParada(parada) {
+            if (mapa && parada) {
+                mapa.setView([parada.lat, parada.lng], 16, { animate: true });
+            }
+        }
+
+        // --- ACCIONES DE PARADAS ---
+        async function alternarEstadoParada(paradaId, event) {
+            event.stopPropagation();
+            if (!rutaSeleccionada) return;
+
+            const parada = rutaSeleccionada.paradas.find(p => p.id === paradaId);
+            if (!parada) return;
+
+            try {
+                const res = await fetch(`${API_BASE}/api/rutas/${rutaSeleccionada.id}/paradas/${paradaId}/completar`, {
+                    method: 'PATCH'
+                });
+
+                if (res.ok) {
+                    const rutaActualizada = await res.json();
+                    // Actualizar la ruta en memoria
+                    const idx = rutasData.findIndex(r => r.id === rutaActualizada.id);
+                    if (idx >= 0) rutasData[idx] = rutaActualizada;
+                    rutaSeleccionada = rutaActualizada;
+                    cargarDashboard();
+                } else {
+                    console.error('Error al completar parada');
+                }
+            } catch (err) {
+                console.error('Error de red:', err);
+            }
+        }
+
+        // --- NAVEGACIÓN SPA ---
         function navegarA(vista) {
             const vistaLanding = document.getElementById('vista-landing');
             const vistaDashboard = document.getElementById('vista-dashboard');
@@ -736,195 +971,38 @@
                 vistaLanding.classList.replace('block', 'hidden');
                 vistaDashboard.classList.replace('hidden', 'block');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
-                // Volver a renderizar mapa por si cambiaron dimensiones
-                setTimeout(reajustarMapa, 50);
+                setTimeout(reajustarMapa, 100);
             }
         }
 
-        // Carga la información de la ruta en el Dashboard
-        function cargarDashboard() {
-            const ruta = repo.obtenerPorId(rutaSeleccionadaId);
-            if (!ruta) return;
-
-            // Actualizar KPIs
-            const stats = ruta.obtenerEstadisticas();
-            document.getElementById('kpi-rutas-totales').innerText = repo.obtenerTodas().length;
-            document.getElementById('kpi-entregas').innerText = `${stats.completadas}/${stats.total}`;
-            document.getElementById('kpi-tiempo').innerText = `${stats.minutosEstimados} min`;
-            document.getElementById('kpi-ahorro').innerText = `$${stats.ahorro.toFixed(2)}`;
-
-            const porcentaje = ruta.calcularProgreso();
-            document.getElementById('progreso-entregas-bar').style.width = `${porcentaje}%`;
-
-            document.getElementById('conteo-paradas-badge').innerText = `${stats.total} Paradas`;
-
-            // Renderizar listado de paradas monitoreadas
-            const contenedor = document.getElementById('lista-paradas-dashboard');
-            contenedor.innerHTML = '';
-
-            ruta.paradas.sort((a,b) => a.orden - b.orden).forEach((parada, i) => {
-                const div = document.createElement('div');
-                div.className = `route-card-transition p-4 bg-white border ${parada.completada ? 'border-emerald-100 bg-emerald-50/20' : 'border-slate-100'} rounded-xl shadow-sm flex items-start gap-4 cursor-pointer`;
-                div.onclick = () => enfocarPuntoMapa(parada);
-
-                const statusColor = parada.completada 
-                    ? 'bg-emerald-500 text-white' 
-                    : 'bg-blue-100 text-blue-700';
-
-                div.innerHTML = `
-                    <div class="w-8 h-8 rounded-lg ${statusColor} flex items-center justify-center font-bold text-sm shrink-0">
-                        ${parada.completada ? '✓' : i + 1}
-                    </div>
-                    <div class="flex-1 min-w-0">
-                        <h4 class="font-bold text-sm text-slate-800 truncate">${parada.direccion}</h4>
-                        <div class="flex items-center gap-2 mt-1">
-                            <span class="text-[10px] font-medium text-slate-400">Cliente Recibe</span>
-                            <span class="w-1.5 h-1.5 bg-slate-300 rounded-full"></span>
-                            <span class="text-[10px] text-slate-500">Orden: #${i+1}</span>
-                        </div>
-                    </div>
-                    <button onclick="alternarEstadoParada('${parada.id}', event)" class="px-3 py-1.5 text-xs font-semibold rounded-lg border transition-all ${
-                        parada.completada 
-                        ? 'border-emerald-200 text-emerald-700 hover:bg-emerald-50' 
-                        : 'border-slate-200 text-slate-700 hover:bg-slate-50'
-                    }">
-                        ${parada.completada ? 'Completado' : 'Entregar'}
-                    </button>
-                `;
-                contenedor.appendChild(div);
-            });
-
-            dibujarMapa(ruta);
-            moverVehiculoSiguienteParada(ruta);
-        }
-
-        // Alterna el estado de una parada (Entregado / Pendiente)
-        function alternarEstadoParada(paradaId, event) {
-            event.stopPropagation(); // Evitar abrir tooltip del mapa
-            const ruta = repo.obtenerPorId(rutaSeleccionadaId);
-            const parada = ruta.paradas.find(p => p.id === paradaId);
-            if (parada) {
-                parada.completada = !parada.completada;
-                cargarDashboard();
-            }
-        }
-
-        /* ==========================================================================
-           INTERACTIVIDAD DEL MAPA SIMULADO (SVG DINÁMICO)
-           ========================================================================== */
-
-        function dibujarMapa(ruta) {
-            const svgGrupo = document.getElementById('svg-puntos-grupo');
-            svgGrupo.innerHTML = '';
-
-            const puntos = ruta.paradas.sort((a,b) => a.orden - b.orden);
-            let pathD = "M 300 225"; // Iniciar en el centro (La base del negocio)
-            let pathCompletadoD = "M 300 225";
-
-            // Base/Negocio central
-            const centralCircle = `
-                <g transform="translate(300, 225)" class="cursor-pointer">
-                    <circle r="18" fill="#1e293b" stroke="#ffffff" stroke-width="2" />
-                    <path d="M-6,3 L6,3 L6,-4 L0,-8 L-6,-4 Z" fill="#ffffff" />
-                </g>
-            `;
-            svgGrupo.innerHTML += centralCircle;
-
-            puntos.forEach((p, index) => {
-                const color = p.completada ? '#10b981' : '#3b82f6';
-                const colorTexto = '#ffffff';
-
-                // Agregar línea al trazado general de ruta
-                pathD += ` L ${p.lng} ${p.lat}`;
-                if (p.completada) {
-                    pathCompletadoD += ` L ${p.lng} ${p.lat}`;
-                }
-
-                // Nodo SVG para cada parada
-                const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
-                g.setAttribute("transform", `translate(${p.lng}, ${p.lat})`);
-                g.setAttribute("class", "cursor-pointer group");
-                g.onclick = () => mostrarTooltip(p, index + 1);
-
-                g.innerHTML = `
-                    <circle r="15" fill="${color}" stroke="#ffffff" stroke-width="2" class="transition-colors duration-300" />
-                    <text y="4" text-anchor="middle" fill="${colorTexto}" font-size="11" font-weight="bold">${index + 1}</text>
-                    <circle r="22" fill="transparent" class="hover:stroke-blue-400 hover:stroke-2" />
-                `;
-                svgGrupo.appendChild(g);
-            });
-
-            document.getElementById('ruta-trazado').setAttribute('d', pathD);
-            document.getElementById('ruta-completada-trazado').setAttribute('d', pathCompletadoD);
-        }
-
-        function inicializarVehiculo() {
-            // El vehículo empieza en el centro
-            const vehiculo = document.getElementById('svg-vehiculo');
-            vehiculo.setAttribute('transform', 'translate(300, 225)');
-        }
-
-        function moverVehiculoSiguienteParada(ruta) {
-            // Encontrar la primera parada que aún no esté completada
-            const siguiente = ruta.paradas.sort((a,b) => a.orden - b.orden).find(p => !p.completada);
-            const vehiculo = document.getElementById('svg-vehiculo');
-            
-            if (siguiente) {
-                vehiculo.setAttribute('transform', `translate(${siguiente.lng}, ${siguiente.lat})`);
-            } else {
-                // Si todo está completado, vuelve al negocio
-                vehiculo.setAttribute('transform', 'translate(300, 225)');
-            }
-        }
-
-        function mostrarTooltip(parada, indice) {
-            const tooltip = document.getElementById('map-tooltip');
-            document.getElementById('tooltip-indice').innerText = indice;
-            document.getElementById('tooltip-titulo').innerText = parada.direccion;
-            document.getElementById('tooltip-info').innerText = `Entrega: ${parada.completada ? 'Entregado ✓' : 'En camino (Pendiente)'}`;
-            
-            tooltip.style.opacity = '1';
-            tooltip.style.transform = 'translateY(0)';
-
-            setTimeout(() => {
-                tooltip.style.opacity = '0';
-                tooltip.style.transform = 'translateY(8px)';
-            }, 3500);
-        }
-
-        function enfocarPuntoMapa(parada) {
-            const index = repo.obtenerPorId(rutaSeleccionadaId).paradas.indexOf(parada);
-            mostrarTooltip(parada, index + 1);
-        }
-
-        function reajustarMapa() {
-            // Animación rápida de refresco del mapa
-            const mapa = document.getElementById('mapa-svg');
-            mapa.style.transform = 'scale(0.98)';
-            setTimeout(() => {
-                mapa.style.transform = 'scale(1)';
-            }, 200);
-            cargarDashboard();
-        }
-
-
-        /* ==========================================================================
-           LÓGICA DEL CREADOR DE NUEVAS RUTAS (DRAWER LATERAL)
-           ========================================================================== */
-
+        // --- CREADOR DE RUTAS (DRAWER) ---
         function abrirCreadorRuta() {
             document.getElementById('drawer-background').classList.remove('opacity-0', 'pointer-events-none');
             document.getElementById('drawer-creador').classList.remove('translate-x-full');
             paradasTemporales = [];
+            modoAgregarDestino = true;
             actualizarListaCreador();
+            
+            // Mostrar ubicación del usuario en el mapa
+            setTimeout(() => {
+                if (mapa) {
+                    mapa.invalidateSize();
+                    mostrarUbicacionEnMapa();
+                }
+            }, 300);
         }
 
         function cerrarCreadorRuta() {
             document.getElementById('drawer-background').classList.add('opacity-0', 'pointer-events-none');
             document.getElementById('drawer-creador').classList.add('translate-x-full');
+            modoAgregarDestino = false;
+            // Limpiar polylines preview
+            if (mapa) {
+                polylinesPreview.forEach(p => mapa.removeLayer(p));
+                polylinesPreview = [];
+            }
         }
 
-        // Filtra y muestra sugerencias en tiempo real (Autocompletado de mapa simulado)
         function filtrarSugerencias(query) {
             const sugerenciasContenedor = document.getElementById('lista-sugerencias');
             if (!query) {
@@ -932,7 +1010,7 @@
                 return;
             }
 
-            const filtradas = baseDirecciones.filter(d => 
+            const filtradas = baseDirecciones.filter(d =>
                 d.direccion.toLowerCase().includes(query.toLowerCase())
             );
 
@@ -963,25 +1041,25 @@
             paradasTemporales.push(nuevaParada);
             document.getElementById('buscador-direccion').value = '';
             document.getElementById('lista-sugerencias').classList.add('hidden');
-            
+
             actualizarListaCreador();
+            dibujarRutaPreview();
         }
 
         function removerParadaCreador(tempId) {
             paradasTemporales = paradasTemporales.filter(p => p.id !== tempId);
             actualizarListaCreador();
+            dibujarRutaPreview();
         }
 
-        // Actualiza el listado visual de paradas dentro del configurador lateral
         function actualizarListaCreador() {
             const contenedor = document.getElementById('paradas-añadidas-lista');
             const estadoVacio = document.getElementById('paradas-vacias-estado');
             const btnOptimizar = document.getElementById('btn-optimizar');
             const contador = document.getElementById('contador-paradas-creador');
 
-            // Limpiar lista preservando el nodo de estado vacío si es necesario
             contenedor.innerHTML = '';
-            
+
             if (paradasTemporales.length === 0) {
                 contenedor.appendChild(estadoVacio);
                 btnOptimizar.classList.add('hidden');
@@ -991,7 +1069,6 @@
 
             contador.innerText = `${paradasTemporales.length} agregadas`;
 
-            // Mostrar botón para optimizar si hay más de 1 parada
             if (paradasTemporales.length > 1) {
                 btnOptimizar.classList.remove('hidden');
                 btnOptimizar.classList.add('flex');
@@ -1016,61 +1093,96 @@
             lucide.createIcons();
         }
 
-        // Ejecuta el Caso de Uso de Optimización Inteligente
         function optimizarRutaCreador() {
             const btn = document.getElementById('btn-optimizar');
             const texto = document.getElementById('texto-btn-optimizar');
-            
-            // Simular carga con animación de la IA optimizando
+
             btn.disabled = true;
             texto.innerText = "Calculando Ruta Óptima...";
             btn.classList.add('opacity-75', 'animate-pulse');
 
             setTimeout(() => {
-                // Llamamos a nuestro caso de uso limpio del Dominio
-                paradasTemporales = optimizarRutaUseCase.ejecutar(paradasTemporales);
-                
-                // Restablecer botón
+                // Algoritmo de vecino más cercano
+                if (paradasTemporales.length > 1) {
+                    const inicio = ORIGEN_NEGOCIO;
+                    let desordenadas = [...paradasTemporales];
+                    let ordenadas = [];
+                    let actual = inicio;
+
+                    while (desordenadas.length > 0) {
+                        let masCercanoIndice = 0;
+                        let distanciaMinima = Infinity;
+
+                        for (let i = 0; i < desordenadas.length; i++) {
+                            const dist = Math.hypot(desordenadas[i].lat - actual.lat, desordenadas[i].lng - actual.lng);
+                            if (dist < distanciaMinima) {
+                                distanciaMinima = dist;
+                                masCercanoIndice = i;
+                            }
+                        }
+
+                        actual = desordenadas[masCercanoIndice];
+                        ordenadas.push(desordenadas.splice(masCercanoIndice, 1)[0]);
+                    }
+
+                    paradasTemporales = ordenadas;
+                }
+
                 btn.disabled = false;
-                texto.innerText = "¡Ruta Optimizado con Éxito! ✓";
+                texto.innerText = "¡Ruta Optimizada con Éxito! ✓";
                 btn.classList.remove('animate-pulse');
                 btn.classList.replace('bg-amber-500', 'bg-emerald-600');
 
                 actualizarListaCreador();
+                dibujarRutaPreview();
 
                 setTimeout(() => {
                     btn.classList.replace('bg-emerald-600', 'bg-amber-500');
                     texto.innerText = "Optimizar Orden (Recomendado IA)";
                 }, 2000);
-
             }, 1200);
         }
 
-        // Registra y guarda la nueva ruta para visualizarla en el Dashboard
-        function guardarRuta() {
+        async function guardarRuta() {
             if (paradasTemporales.length === 0) {
-                alert("Debes agregar al menos una parada para trazar la ruta");
+                alert("Debes agregar al menos un destino para trazar la ruta");
                 return;
             }
 
             const nombre = document.getElementById('input-ruta-nombre').value || 'Nueva Ruta';
             const repartidor = document.getElementById('input-ruta-repartidor').value;
-            const nuevoId = 'RUT-' + Math.random().toString(36).substring(2, 5).toUpperCase();
 
-            const rutaDTO = {
-                id: nuevoId,
+            const command = {
                 nombre: nombre,
                 repartidor: repartidor,
-                paradas: paradasTemporales
+                paradas: paradasTemporales.map((p, idx) => ({
+                    calle: p.direccion,
+                    latitud: p.lat,
+                    longitud: p.lng
+                }))
             };
 
-            // Ejecutamos el caso de uso
-            registrarRutaUseCase.ejecutar(rutaDTO);
+            try {
+                const res = await fetch(`${API_BASE}/api/rutas`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(command)
+                });
 
-            // Cambiamos el dashboard a la nueva ruta
-            rutaSeleccionadaId = nuevoId;
-            cargarDashboard();
-            cerrarCreadorRuta();
+                if (res.ok) {
+                    const rutaCreada = await res.json();
+                    rutasData.push(rutaCreada);
+                    rutaSeleccionada = rutaCreada;
+                    cargarDashboard();
+                    cerrarCreadorRuta();
+                } else {
+                    const error = await res.json();
+                    alert('Error al crear ruta: ' + (error.error || 'Error desconocido'));
+                }
+            } catch (err) {
+                console.error('Error de red:', err);
+                alert('Error de conexión al crear la ruta');
+            }
         }
 
     </script>
